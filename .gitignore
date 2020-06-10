@@ -1,0 +1,2 @@
+# node modules are installed with npm
+node_modules/**
