@@ -1,4 +1,5 @@
 import {addProject, todos, projects} from './modules/todos';
+import * as UI from './modules/ui';
 
 if (todos.length === 0) {
   const project = addProject({title: "default"});
@@ -25,3 +26,5 @@ projects.each(prj => {
       console.log(prj.todos);
       prj.todos.each(td => console.log(prj.id, td));
     });
+
+UI.initialize(projects);
