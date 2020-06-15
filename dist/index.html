@@ -4,8 +4,22 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>TODO</title>
+  <link rel="stylesheet" href="style.css">
 </head>
 <body>
+  <div id="todo-form" class="hidden">
+    <form action="#">
+      <button class="close-btn" type="button">Close</button>
+      <input type="text" id="todo-title" name="title" required placeholder="Title">
+      <textarea name="description" id="todo-description" placeholder="Description"></textarea>
+      <fieldset>
+        <label for="todo-date">Due date</label>
+        <input type="date" name="due-date" id="todo-date">
+      </fieldset>
+      <input type="hidden" name="project-id">
+      <button type="submit">Save</button>
+    </form>
+  </div>
   <div id="content">
     <div id="projects-container"></div>
   </div>

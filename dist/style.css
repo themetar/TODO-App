@@ -1,0 +1,12 @@
+#todo-form form {
+  display: flex;
+  flex-flow: column;
+}
+
+form textarea {
+  resize: none;
+}
+
+#todo-form.hidden {
+  display: none;
+}
