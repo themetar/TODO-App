@@ -28,3 +28,21 @@ projects.each(prj => {
     });
 
 UI.initialize(projects);
+
+UI.events.subscribe('new-todo', (event, data) => {
+  console.log("new todo handler");
+  console.log(event);
+  console.log(data);
+
+  let proj = (function (){
+    let project;
+    projects.each(proj => {
+      if (proj.id == data.project_id) project = proj; return;
+    });
+    return project;
+  }());
+
+  let todo = proj.addTodo(data);
+
+  UI.addTodo(todo);
+});

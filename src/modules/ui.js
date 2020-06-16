@@ -1,3 +1,5 @@
+import * as events from './utils/pubsub';
+
 let projects_collection;
 
 let projects_container;
@@ -48,6 +50,11 @@ const createTodoElement = function createTodoDisplayElement (todo) {
   return div;
 };
 
+const updateTodoElement = function (div, todo) {
+  let title = div.querySelector('span');
+  title.textContent = todo.title;
+};
+
 const initialize = function initializeUserInterface (projects) {
   projects_collection = projects;
 
@@ -72,6 +79,7 @@ const initialize = function initializeUserInterface (projects) {
     console.log(data);
 
     // 2. send event to app
+    events.publish('new-todo', data);
     
     // close form
     todo_form.classList.add('hidden');
@@ -87,4 +95,18 @@ const initialize = function initializeUserInterface (projects) {
   });
 };
 
-export { initialize };
+const addTodo = function (todo) {
+  const project_id = todo.project_id;
+  
+  const project_div = document.querySelector("#project-" + project_id);
+
+  if (project_div) {
+    let todo_div = project_div.querySelector("#todo-" + todo.id);
+
+    todo_div = todo_div || project_div.appendChild(createTodoElement(todo));
+  }
+
+
+}
+
+export { initialize, events, addTodo };
