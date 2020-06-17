@@ -10,3 +10,7 @@ form textarea {
 #todo-form.hidden {
   display: none;
 }
+
+.todo { display: flex; }
+
+.todo .title { flex-grow: 1; }
