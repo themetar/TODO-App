@@ -40,11 +40,20 @@ const createTodoElement = function createTodoDisplayElement (todo) {
   div.classList.add('todo');
   div.setAttribute('id', 'todo-' + todo.id);
 
+  /* checkbox */
+  const check = div.appendChild(document.createElement('input'));
+  check.setAttribute('type', 'checkbox');
+
+  /* title and date */
   const title = div.appendChild(document.createElement('span'));
+  title.classList.add('title');
   title.appendChild(document.createTextNode(todo.title));
+  const date = div.appendChild(document.createElement('span'));
+  date.classList.add('due-date');
+  date.appendChild(document.createTextNode(todo.due_date ? todo.due_date : ""));
 
   /*
-   todo buttons here
+   todo etc menu here
   */
 
   return div;
