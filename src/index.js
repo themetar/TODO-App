@@ -1,4 +1,4 @@
-import {addProject, todos, projects} from './modules/todos';
+import {addProject, deleteTodo, todos, projects} from './modules/todos';
 import * as UI from './modules/ui';
 
 if (todos.length === 0) {
@@ -45,4 +45,8 @@ UI.events.subscribe('new-todo', (event, data) => {
   let todo = proj.addTodo(data);
 
   UI.addTodo(todo);
+});
+
+UI.events.subscribe("delete-todo", (_, data) => {
+  deleteTodo(data.todo_id);
 });
