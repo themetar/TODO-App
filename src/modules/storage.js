@@ -29,4 +29,10 @@ const storeItem = function storeObject (prefix, item) {
   }
 }
 
-export { available, readAll, storeItem };
+const deleteItem = function deleteObject (prefix, item) {
+  if (available) {
+    localStorage.removeItem(prefix + item.id);
+  }
+}
+
+export { available, readAll, storeItem, deleteItem };
