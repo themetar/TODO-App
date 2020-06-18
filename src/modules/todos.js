@@ -53,6 +53,13 @@ const project_prototype = (function projectPrototypeIIF () {
     return todo;
   };
 
+  const removeTodo = function removeTodoFromProject (todo_data) {
+    const _todos = project_todos.has(this.id) && project_todos.get(this.id);
+    if (_todos) {
+      _todos.splice(_todos.findIndex(t => t.id == todo_data.id), 1);
+    }
+  };
+
   const project_todos__colls = new Map();
 
   const collectionForProject = function (prj_id) {
@@ -69,6 +76,7 @@ const project_prototype = (function projectPrototypeIIF () {
   
   return {
     addTodo,
+    removeTodo,
     get todos () {
       return collectionForProject(this.id);
     },
@@ -112,6 +120,20 @@ const addProject = function makeAndStoreNewProject (project_data) {
 const todos = collection(todos_arr);
 const projects = collection(projects_arr);
 
+
+/* Exposed method for deleting todos */
+
+const deleteTodo = function (id) {
+  const index = todos_arr.findIndex(todo => todo.id === id);
+  // delete from arr
+  const todo = todos_arr.splice(index, 1)[0];
+  // remove from project
+  const project = projects_arr.find(proj => proj.id === todo.project_id);
+  project.removeTodo(todo);
+  // delete from storage
+  Storage.deleteItem("todo", todo);
+};
+
 /* Initialize from storage */
 
 Storage.readAll({
@@ -119,4 +141,4 @@ Storage.readAll({
   project: data => { projects_arr.push(makeProject(data)); },
 });
 
-export {addProject, todos, projects};
+export {addProject, deleteTodo, todos, projects};
