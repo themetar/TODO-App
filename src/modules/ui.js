@@ -12,6 +12,27 @@ const resetTodoForm = function resetTodoFormInputs () {
   todo_form.querySelector('input[name=due-date]').value = "";
 }
 
+const etcMenu = function (structure) {
+  const div = document.createElement('div');
+  div.classList.add('etc-menu');
+
+  const etc = div.appendChild(document.createElement('div'));
+  etc.textContent = "etc";
+
+  const menu = div.appendChild(document.createElement('ul'));
+
+  for (const entry of structure) {
+    const li = menu.appendChild(document.createElement('li'));
+    li.textContent = entry.text;
+    if (entry.data) {
+      for (const datum in entry.data) li.setAttribute("data-" + datum, entry.data[datum]);
+    }
+    if (entry.handler) li.addEventListener('click', entry.handler);
+  }
+
+  return div;
+};
+
 const createProjectElement = function createProjectDisplayElement (project) {
   const section = document.createElement('section');
   section.classList.add('project');
@@ -35,6 +56,14 @@ const createProjectElement = function createProjectDisplayElement (project) {
   return section;
 };
 
+const deleteTodoHandler = function (event) {
+  const todo_id = this.getAttribute("data-todo-id");
+  const element = document.querySelector("#" + "todo-" + todo_id);
+  element.parentElement.removeChild(element);
+  events.publish("delete-todo", {todo_id: Number(todo_id)});
+  console.log("delete");
+};
+
 const createTodoElement = function createTodoDisplayElement (todo) {
   const div = document.createElement('div');
   div.classList.add('todo');
@@ -55,6 +84,7 @@ const createTodoElement = function createTodoDisplayElement (todo) {
   /*
    todo etc menu here
   */
+  div.appendChild(etcMenu([{text: "Delete", data: {"todo-id": todo.id}, handler: deleteTodoHandler}]));
 
   return div;
 };
