@@ -12,12 +12,29 @@ const resetTodoForm = function resetTodoFormInputs () {
   todo_form.querySelector('input[name=due-date]').value = "";
 }
 
+const etcOpenHandler = function (event) {
+  const menu = this.parentElement;
+
+  const off = (e) => {
+    if (e === event) return;
+
+    menu.classList.remove('open');
+    document.removeEventListener('click', off);
+  }
+
+  if (!menu.classList.contains('open')) {
+    menu.classList.add('open');
+    document.addEventListener('click', off);
+  }
+};
+
 const etcMenu = function (structure) {
   const div = document.createElement('div');
   div.classList.add('etc-menu');
 
   const etc = div.appendChild(document.createElement('div'));
   etc.textContent = "etc";
+  etc.addEventListener('click', etcOpenHandler);
 
   const menu = div.appendChild(document.createElement('ul'));
 

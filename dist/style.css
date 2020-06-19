@@ -14,3 +14,39 @@ form textarea {
 .todo { display: flex; }
 
 .todo .title { flex-grow: 1; }
+
+.todo > :nth-child(n+2) { margin-left: 1em; }
+
+/* ***********
+  Etc Menu
+************** */
+
+.etc-menu { position: relative; }
+
+.etc-menu div {
+  height: 100%;
+  cursor: pointer;
+}
+
+.etc-menu ul {
+  position: absolute;
+  right: 0;
+  list-style: none;
+  padding: .2em;
+  margin: 0;
+  z-index: 9999;
+  transform: scaleY(0);
+  transform-origin: center top;
+  background: wheat;
+  border-radius: .2em;
+  transition: transform .2s ease-in-out;
+}
+
+.etc-menu.open ul { transform: scaleY(1); }
+
+.etc-menu li {
+  padding: .4em;
+  cursor: pointer;
+}
+
+.etc-menu li:hover { background-color: rgba(0, 0, 0, .05); }
