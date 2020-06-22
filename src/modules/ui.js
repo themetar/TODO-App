@@ -17,8 +17,8 @@ const openTodoForm = function openTodoForm (params = {}) {
   todo_form.classList.remove('hidden');
   resetTodoForm();
   for (const key in params) {
-    const input = todo_form.querySelector("input[name=" + key + "]");
-    if (input) input.setAttribute("value", params[key]);
+    const element = todo_form.querySelector("[name=" + key + "]");
+    if (element) element.value = params[key];
   }
   todo_form.querySelector('input[name=title]').focus();
 }
