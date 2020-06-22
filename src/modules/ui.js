@@ -7,19 +7,20 @@ let projects_container;
 let todo_form;
 
 const resetTodoForm = function resetTodoFormInputs () {
-  todo_form.querySelector('input[name=title]').value = "";
+  for (const input of todo_form.querySelectorAll("input"))
+    input.value = "";
+  
   todo_form.querySelector('textarea[name=description]').value = "";
-  todo_form.querySelector('input[name=due-date]').value = "";
 }
 
 const openTodoForm = function openTodoForm (params = {}) {
   todo_form.classList.remove('hidden');
+  resetTodoForm();
   for (const key in params) {
     const input = todo_form.querySelector("input[name=" + key + "]");
     if (input) input.setAttribute("value", params[key]);
   }
   todo_form.querySelector('input[name=title]').focus();
-  resetTodoForm();
 }
 
 const closeTodoForm = function closeTodoForm () {
