@@ -137,7 +137,7 @@ const initialize = function initializeUserInterface (projects) {
     
     // collect data
     const data = {};
-    todo_form.querySelectorAll('input').forEach(input => {
+    todo_form.querySelectorAll('input, textarea').forEach(input => {
       let name = input.getAttribute('name');
       name = name.replace('-', '_');
       const value = input.value;
