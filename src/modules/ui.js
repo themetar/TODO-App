@@ -12,6 +12,16 @@ const resetTodoForm = function resetTodoFormInputs () {
   todo_form.querySelector('input[name=due-date]').value = "";
 }
 
+const openTodoForm = function openTodoForm (params = {}) {
+  todo_form.classList.remove('hidden');
+  for (const key in params) {
+    const input = todo_form.querySelector("input[name=" + key + "]");
+    if (input) input.setAttribute("value", params[key]);
+  }
+  todo_form.querySelector('input[name=title]').focus();
+  resetTodoForm();
+}
+
 const etcOpenHandler = function (event) {
   const menu = this.parentElement;
 
@@ -61,10 +71,7 @@ const createProjectElement = function createProjectDisplayElement (project) {
   const add_todo_btn = section.appendChild(document.createElement('button'));
   add_todo_btn.appendChild(document.createTextNode("Add todo"));
   add_todo_btn.addEventListener('click', (event) => {
-    todo_form.classList.remove('hidden');
-    todo_form.querySelector('input[name="project-id"]').setAttribute('value', project.id);
-    todo_form.querySelector('input[name=title]').focus();
-    resetTodoForm();    
+    openTodoForm({"project-id": project.id});  
   });
 
   const todos_container = section.appendChild(document.createElement('div'));
