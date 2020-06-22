@@ -22,6 +22,10 @@ const openTodoForm = function openTodoForm (params = {}) {
   resetTodoForm();
 }
 
+const closeTodoForm = function closeTodoForm () {
+  todo_form.classList.add('hidden');
+};
+
 const etcOpenHandler = function (event) {
   const menu = this.parentElement;
 
@@ -125,7 +129,7 @@ const initialize = function initializeUserInterface (projects) {
 
   todo_form = document.querySelector('#todo-form');
   todo_form.querySelector(".close-btn").addEventListener('click', (event) => {
-    todo_form.classList.add('hidden');
+    closeTodoForm();
   });
   todo_form.querySelector('form').addEventListener('submit', (event) => {
     event.preventDefault();
@@ -145,7 +149,7 @@ const initialize = function initializeUserInterface (projects) {
     events.publish('new-todo', data);
     
     // close form
-    todo_form.classList.add('hidden');
+    closeTodoForm();
   });
 
   projects_collection.each(project => {
