@@ -1,4 +1,5 @@
-#todo-form form {
+#todo-form form,
+#project-form form {
   display: flex;
   flex-flow: column;
 }
@@ -7,7 +8,8 @@ form textarea {
   resize: none;
 }
 
-#todo-form.hidden {
+#todo-form.hidden,
+#project-form.hidden {
   display: none;
 }
 
