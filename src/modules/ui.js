@@ -100,14 +100,24 @@ const editTodoHandler = function editTodoHandler (event) {
   events.publish("edit-todo", {todo_id: todo_id});
 };
 
+const markTodoHandler = function (event) {
+  let todo_id = this.parentElement.getAttribute("id");
+  todo_id = todo_id.replace("todo-", "");
+  console.log("change", this.checked);
+  events.publish("update-todo", {todo_id, done: this.checked});
+};
+
 const createTodoElement = function createTodoDisplayElement (todo) {
   const div = document.createElement('div');
   div.classList.add('todo');
   div.setAttribute('id', 'todo-' + todo.id);
+  if (todo.done) div.classList.add("done");
 
   /* checkbox */
   const check = div.appendChild(document.createElement('input'));
   check.setAttribute('type', 'checkbox');
+  check.checked = todo.done;
+  check.addEventListener('change', markTodoHandler);
 
   /* title and date */
   const title = div.appendChild(document.createElement('span'));
@@ -132,6 +142,10 @@ const updateTodoElement = function (div, todo) {
   title.textContent = todo.title;
   const due_date = div.querySelector("span.due-date");
   due_date.textContent = todo.due_date;
+  if (todo.done)
+    div.classList.add("done");
+  else
+    div.classList.remove("done");
 };
 
 const initialize = function initializeUserInterface (projects) {

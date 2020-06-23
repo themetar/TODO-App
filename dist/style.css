@@ -17,6 +17,8 @@ form textarea {
 
 .todo > :nth-child(n+2) { margin-left: 1em; }
 
+.todo.done { background: green; }
+
 /* ***********
   Etc Menu
 ************** */
