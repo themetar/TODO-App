@@ -21,7 +21,17 @@
       <button type="submit">Save</button>
     </form>
   </div>
+  <div id="project-form" class="hidden">
+    <form action="#">
+      <button class="close-btn" type="button">Close</button>
+      <input type="text" id="project-title" name="title" required placeholder="Title">
+      <textarea name="description" id="project-description" placeholder="Description"></textarea>
+      <input type="hidden" name="project-id">
+      <button type="submit">Save</button>
+    </form>
+  </div>
   <div id="content">
+    <button type="button" id="add-project-btn">Add Project</button>
     <div id="projects-container"></div>
   </div>
   <script src="main.js"></script>  
