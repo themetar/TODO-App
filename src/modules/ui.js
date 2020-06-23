@@ -6,25 +6,26 @@ let projects_container;
 
 let todo_form;
 
-const resetTodoForm = function resetTodoFormInputs () {
-  for (const input of todo_form.querySelectorAll("input"))
+const resetForm = function resetFormInputs (form) {
+  for (const input of form.querySelectorAll("input"))
     input.value = "";
   
-  todo_form.querySelector('textarea[name=description]').value = "";
+  const textarea = form.querySelector('textarea[name=description]');
+  if (textarea) textarea.value = "";
 }
 
-const openTodoForm = function openTodoForm (params = {}) {
-  todo_form.classList.remove('hidden');
-  resetTodoForm();
+const openForm = function openForm (form, params = {}) {
+  form.classList.remove('hidden');
+  resetForm(form);
   for (const key in params) {
-    const element = todo_form.querySelector("[name=" + key + "]");
+    const element = form.querySelector("[name=" + key + "]");
     if (element) element.value = params[key];
   }
-  todo_form.querySelector('input[name=title]').focus();
+  form.querySelector('input[name=title]').focus();
 }
 
-const closeTodoForm = function closeTodoForm () {
-  todo_form.classList.add('hidden');
+const closeForm = function closeForm (form) {
+  form.classList.add('hidden');
 };
 
 const etcOpenHandler = function (event) {
@@ -76,7 +77,7 @@ const createProjectElement = function createProjectDisplayElement (project) {
   const add_todo_btn = section.appendChild(document.createElement('button'));
   add_todo_btn.appendChild(document.createTextNode("Add todo"));
   add_todo_btn.addEventListener('click', (event) => {
-    openTodoForm({"project-id": project.id});  
+    openForm(todo_form, {"project-id": project.id});  
   });
 
   const todos_container = section.appendChild(document.createElement('div'));
@@ -155,7 +156,7 @@ const initialize = function initializeUserInterface (projects) {
 
   todo_form = document.querySelector('#todo-form');
   todo_form.querySelector(".close-btn").addEventListener('click', (event) => {
-    closeTodoForm();
+    closeForm(todo_form);
   });
   todo_form.querySelector('form').addEventListener('submit', (event) => {
     event.preventDefault();
@@ -178,7 +179,7 @@ const initialize = function initializeUserInterface (projects) {
       events.publish('new-todo', data);
     
     // close form
-    closeTodoForm();
+    closeForm(todo_form);
   });
 
   projects_collection.each(project => {
@@ -208,7 +209,7 @@ const addTodo = function (todo) {
 const editTodo = function showEditTodoForm (todo) {
   const _todo = Object.assign({"todo-id": todo.id, "project-id": todo.project_id, "due-date": todo.due_date}, todo);
   console.log(_todo);
-  openTodoForm(_todo);
+  openForm(todo_form, _todo);
 }
 
 const updateTodo = function (todo) {
