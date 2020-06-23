@@ -30,10 +30,8 @@ const makeTodo = function makeTodo_Factory ({title, project_id, description = ""
     get id () { return oid; },
     get project_id () { return pid; },
     update: function (todo) {
-      this.title = todo.title;
-      this.description = todo.description;
-      this.due_date = todo.due_date;
-      this.done = todo.done;
+      for (const prop of ["title", "description", "due_date", "done"])
+        if (todo.hasOwnProperty(prop)) this[prop] = todo[prop];
       Storage.storeItem("todo", this);
     },
   }
