@@ -6,6 +6,10 @@ let projects_container;
 
 let todo_form;
 
+let add_project_button;
+
+let project_form;
+
 const resetForm = function resetFormInputs (form) {
   for (const input of form.querySelectorAll("input"))
     input.value = "";
@@ -151,6 +155,40 @@ const updateTodoElement = function (div, todo) {
 
 const initialize = function initializeUserInterface (projects) {
   projects_collection = projects;
+
+  project_form = document.querySelector("#project-form");
+
+  add_project_button = document.querySelector("#add-project-btn");
+  add_project_button.addEventListener("click", event => {
+    openForm(project_form);
+  });
+
+  project_form.querySelector(".close-btn").addEventListener("click", event => {
+    closeForm(project_form);
+  });
+
+  project_form.querySelector("form").addEventListener("submit", event => {
+    event.preventDefault();
+
+    // collect data
+    const data = {};
+    project_form.querySelectorAll('input, textarea').forEach(input => {
+      let name = input.getAttribute('name');
+      name = name.replace('-', '_');
+      const value = input.value;
+
+      data[name] = value;
+    });
+
+    // 2. send event to 
+    if (data.project_id != "")
+      events.publish("update-project", data);
+    else
+      events.publish("new-project", data);
+    
+    // close form
+    closeForm(project_form);    
+  });
 
   projects_container = document.querySelector("#projects-container");
 
