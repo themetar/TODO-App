@@ -255,4 +255,8 @@ const updateTodo = function (todo) {
   updateTodoElement(element, todo);
 }
 
-export { initialize, events, addTodo, editTodo, updateTodo };
+const addProject = function (project) {
+  projects_container.appendChild(createProjectElement(project));
+}
+
+export { initialize, events, addProject, addTodo, editTodo, updateTodo };
