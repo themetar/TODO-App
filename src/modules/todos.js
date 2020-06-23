@@ -10,7 +10,7 @@ import * as Storage from './storage';
 
 const todosIDs = makeUIDTracker();
 
-const makeTodo = function makeTodo_Factory ({title, project_id, description = "", due_date = null, id = null}) {
+const makeTodo = function makeTodo_Factory ({title, project_id, description = "", due_date = null, done = false, id = null}) {
   let oid;
   
   if (id) {
@@ -26,12 +26,14 @@ const makeTodo = function makeTodo_Factory ({title, project_id, description = ""
     title,
     description,
     due_date,
+    done,
     get id () { return oid; },
     get project_id () { return pid; },
     update: function (todo) {
       this.title = todo.title;
       this.description = todo.description;
       this.due_date = todo.due_date;
+      this.done = todo.done;
       Storage.storeItem("todo", this);
     },
   }
