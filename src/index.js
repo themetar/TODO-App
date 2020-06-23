@@ -61,3 +61,8 @@ UI.events.subscribe("update-todo", (event, data) => {
 UI.events.subscribe("delete-todo", (_, data) => {
   deleteTodo(data.todo_id);
 });
+
+UI.events.subscribe("new-project", (_, data) => {
+  const project = addProject(data);
+  UI.addProject(project);
+});
