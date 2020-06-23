@@ -47,6 +47,17 @@ UI.events.subscribe('new-todo', (event, data) => {
   UI.addTodo(todo);
 });
 
+UI.events.subscribe("edit-todo", (event, data) => {
+  const todo = todos.find({id: data.todo_id});
+  UI.editTodo(todo);
+});
+
+UI.events.subscribe("update-todo", (event, data) => {
+  const todo = todos.find({id: data.todo_id});
+  todo.update(data);
+  UI.updateTodo(todo);
+});
+
 UI.events.subscribe("delete-todo", (_, data) => {
   deleteTodo(data.todo_id);
 });

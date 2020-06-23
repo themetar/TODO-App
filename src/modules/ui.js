@@ -93,6 +93,13 @@ const deleteTodoHandler = function (event) {
   console.log("delete");
 };
 
+const editTodoHandler = function editTodoHandler (event) {
+  let todo_id = this.parentElement.getAttribute("id");
+  todo_id = todo_id.replace("todo-", "");
+  
+  events.publish("edit-todo", {todo_id: todo_id});
+};
+
 const createTodoElement = function createTodoDisplayElement (todo) {
   const div = document.createElement('div');
   div.classList.add('todo');
@@ -106,6 +113,8 @@ const createTodoElement = function createTodoDisplayElement (todo) {
   const title = div.appendChild(document.createElement('span'));
   title.classList.add('title');
   title.appendChild(document.createTextNode(todo.title));
+  title.addEventListener("click", editTodoHandler);
+
   const date = div.appendChild(document.createElement('span'));
   date.classList.add('due-date');
   date.appendChild(document.createTextNode(todo.due_date ? todo.due_date : ""));
@@ -119,8 +128,10 @@ const createTodoElement = function createTodoDisplayElement (todo) {
 };
 
 const updateTodoElement = function (div, todo) {
-  let title = div.querySelector('span');
+  const title = div.querySelector('span.title');
   title.textContent = todo.title;
+  const due_date = div.querySelector("span.due-date");
+  due_date.textContent = todo.due_date;
 };
 
 const initialize = function initializeUserInterface (projects) {
@@ -146,8 +157,11 @@ const initialize = function initializeUserInterface (projects) {
     });
     console.log(data);
 
-    // 2. send event to app
-    events.publish('new-todo', data);
+    // 2. send event to 
+    if (data.todo_id != "")
+      events.publish("update-todo", data);
+    else
+      events.publish('new-todo', data);
     
     // close form
     closeTodoForm();
@@ -177,4 +191,15 @@ const addTodo = function (todo) {
 
 }
 
-export { initialize, events, addTodo };
+const editTodo = function showEditTodoForm (todo) {
+  const _todo = Object.assign({"todo-id": todo.id, "project-id": todo.project_id, "due-date": todo.due_date}, todo);
+  console.log(_todo);
+  openTodoForm(_todo);
+}
+
+const updateTodo = function (todo) {
+  const element = document.querySelector("#todo-" + todo.id);
+  updateTodoElement(element, todo);
+}
+
+export { initialize, events, addTodo, editTodo, updateTodo };
