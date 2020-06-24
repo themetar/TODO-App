@@ -54,3 +54,8 @@ form textarea {
 }
 
 .etc-menu li:hover { background-color: rgba(0, 0, 0, .05); }
+
+.project > .etc-menu {
+  float: right;
+  background-color: greenyellow;
+}
