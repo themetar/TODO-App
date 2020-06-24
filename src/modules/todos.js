@@ -86,6 +86,11 @@ const project_prototype = (function projectPrototypeIIF () {
     get todos () {
       return collectionForProject(this.id);
     },
+    update: function (project) {
+      for (const prop of ["title", "description"])
+        if (project.hasOwnProperty(prop)) this[prop] = project[prop];
+      Storage.storeItem("project", this);
+    },
   };
 }());
 

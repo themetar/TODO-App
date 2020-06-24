@@ -70,6 +70,12 @@ const etcMenu = function (structure) {
   return div;
 };
 
+const editProjectHandler = function editProjectHandler (event) {
+  const project_id = this.getAttribute("data-project-id");
+  console.log("edit-project");
+  events.publish("edit-project", {project_id: Number(project_id)});
+};
+
 const createProjectElement = function createProjectDisplayElement (project) {
   const section = document.createElement('section');
   section.classList.add('project');
@@ -77,6 +83,11 @@ const createProjectElement = function createProjectDisplayElement (project) {
 
   const h2 = section.appendChild(document.createElement('h2'));
   h2.appendChild(document.createTextNode(project.title));
+
+  section.appendChild(etcMenu([
+    {text: "Edit", data: {"project-id": project.id}, handler: editProjectHandler},
+    {text: "Delete"},
+  ]));
 
   const add_todo_btn = section.appendChild(document.createElement('button'));
   add_todo_btn.appendChild(document.createTextNode("Add todo"));
@@ -88,6 +99,11 @@ const createProjectElement = function createProjectDisplayElement (project) {
   todos_container.classList.add('project-todos');
 
   return section;
+};
+
+const updateProjectElement = function updateProjectDisplayElement (element, project) {
+  const title = element.querySelector('h2');
+  title.textContent = project.title;
 };
 
 const deleteTodoHandler = function (event) {
@@ -259,4 +275,15 @@ const addProject = function (project) {
   projects_container.appendChild(createProjectElement(project));
 }
 
-export { initialize, events, addProject, addTodo, editTodo, updateTodo };
+const editProject = function showEditProjectForm (project) {
+  const _project = Object.assign({"project-id": project.id}, project);
+  console.log(_project);
+  openForm(project_form, _project);
+};
+
+const updateProject = function (project) {
+  const element = document.querySelector("#project-" + project.id);
+  updateProjectElement(element, project);
+};
+
+export { initialize, events, addProject, editProject, updateProject, addTodo, editTodo, updateTodo };

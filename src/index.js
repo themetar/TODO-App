@@ -66,3 +66,14 @@ UI.events.subscribe("new-project", (_, data) => {
   const project = addProject(data);
   UI.addProject(project);
 });
+
+UI.events.subscribe("edit-project", (event, data) => {
+  const project = projects.find({id: data.project_id});
+  UI.editProject(project);
+});
+
+UI.events.subscribe("update-project", (event, data) => {
+  const project = projects.find({id: data.project_id});
+  project.update(data);
+  UI.updateProject(project);
+});
