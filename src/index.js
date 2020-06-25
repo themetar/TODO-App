@@ -1,4 +1,4 @@
-import {addProject, deleteTodo, todos, projects} from './modules/todos';
+import {addProject, deleteTodo, deleteProject, todos, projects} from './modules/todos';
 import * as UI from './modules/ui';
 
 if (todos.length === 0) {
@@ -76,4 +76,10 @@ UI.events.subscribe("update-project", (event, data) => {
   const project = projects.find({id: data.project_id});
   project.update(data);
   UI.updateProject(project);
+});
+
+UI.events.subscribe("delete-project", (_, data) => {
+  const project = projects.find({id: data.project_id});
+  project.todos.each(td => deleteTodo(td.id));
+  deleteProject(project.id);
 });

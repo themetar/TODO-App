@@ -126,6 +126,16 @@ const addProject = function makeAndStoreNewProject (project_data) {
   return project;
 }
 
+/* Exposed method for deleting Projects */
+
+const deleteProject = function (id) {
+  const index = projects_arr.findIndex(project => project.id === id);
+  // remove from array
+  const project = projects_arr.splice(index, 1)[0];
+  // delete
+  Storage.deleteItem("project", project);
+};
+
 /* Exposed collections of projects and todos */
 
 const todos = collection(todos_arr);
@@ -152,4 +162,4 @@ Storage.readAll({
   project: data => { projects_arr.push(makeProject(data)); },
 });
 
-export {addProject, deleteTodo, todos, projects};
+export {addProject, deleteProject, deleteTodo, todos, projects};

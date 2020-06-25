@@ -1,4 +1,5 @@
 import * as events from './utils/pubsub';
+import { deleteProject } from './todos';
 
 let projects_collection;
 
@@ -76,6 +77,14 @@ const editProjectHandler = function editProjectHandler (event) {
   events.publish("edit-project", {project_id: Number(project_id)});
 };
 
+const deleteProjectHandler = function deleteProjectHandler (event) {
+  const project_id = this.getAttribute("data-project-id");
+  const element = document.querySelector("#" + "project-" + project_id);
+  element.parentElement.removeChild(element);
+  events.publish("delete-project", {project_id: Number(project_id)});
+  console.log("delete project");
+};
+
 const createProjectElement = function createProjectDisplayElement (project) {
   const section = document.createElement('section');
   section.classList.add('project');
@@ -86,7 +95,7 @@ const createProjectElement = function createProjectDisplayElement (project) {
 
   section.appendChild(etcMenu([
     {text: "Edit", data: {"project-id": project.id}, handler: editProjectHandler},
-    {text: "Delete"},
+    {text: "Delete", data: {"project-id": project.id}, handler: deleteProjectHandler},
   ]));
 
   const add_todo_btn = section.appendChild(document.createElement('button'));
