@@ -9,8 +9,9 @@
 <body>
   <div id="todo-form" class="hidden">
     <form action="#">
-      <button class="close-btn" type="button">Close</button>
-      <input type="text" id="todo-title" name="title" required placeholder="Title">
+      <label for="todo-title">Task</label>
+      <input type="text" id="todo-title" name="title" required placeholder="Get groceries">
+      <label for="todo-description">Details</label>
       <textarea name="description" id="todo-description" placeholder="Description"></textarea>
       <fieldset>
         <label for="todo-date">Due date</label>
@@ -18,16 +19,23 @@
       </fieldset>
       <input type="hidden" name="project-id">
       <input type="hidden" name="todo-id">
-      <button type="submit">Save</button>
+      <div class="form-buttons-container">
+        <button class="close-btn" type="button">Close</button>
+        <button class="save-btn" type="submit">Save</button>
+      </div>
     </form>
   </div>
   <div id="project-form" class="hidden">
     <form action="#">
-      <button class="close-btn" type="button">Close</button>
+      <label for="project-title">Project</label>
       <input type="text" id="project-title" name="title" required placeholder="Title">
-      <textarea name="description" id="project-description" placeholder="Description"></textarea>
+      <label for="project-description">Details</label>
+      <textarea name="description" id="project-description" placeholder="Description" rows="8"></textarea>
       <input type="hidden" name="project-id">
-      <button type="submit">Save</button>
+      <div class="form-buttons-container">
+        <button class="close-btn" type="button">Close</button>
+        <button class="save-btn" type="submit">Save</button>
+      </div>
     </form>
   </div>
   <div id="content">

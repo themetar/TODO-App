@@ -1,12 +1,63 @@
+/* ***********
+  Resets
+************** */
+
+* {
+  margin: 0;
+  box-sizing: border-box;
+}
+
+fieldset { padding: 0; }
+
+/* ***********
+  Forms
+************** */
+
+#todo-form,
+#project-form {
+  position: absolute;
+  width: 100vw;
+  height: 100vh;
+  z-index: 9999;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  background-color: #ffffffca;
+}
+
 #todo-form form,
 #project-form form {
   display: flex;
   flex-flow: column;
+  width: 90%;
 }
+
+form > label { margin-bottom: .5rem; }
+
+form > input,
+form > textarea,
+form > fieldset { margin-bottom: 1rem; }
 
 form textarea {
   resize: none;
 }
+
+form fieldset {
+  background: none;
+  border: none;
+}
+
+.form-buttons-container button { float: left; }
+
+.form-buttons-container::after {
+  content: "";
+  display: block;
+  clear: left;
+}
+
+.close-btn { width: 33.333%; }
+.save-btn { width: 66.666%; }
 
 #todo-form.hidden,
 #project-form.hidden {
