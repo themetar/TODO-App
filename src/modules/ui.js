@@ -181,6 +181,30 @@ const updateTodoElement = function (div, todo) {
 const initialize = function initializeUserInterface (projects) {
   projects_collection = projects;
 
+  const app_menu = document.querySelector("#app-menu");
+  const app_menu_btn = document.querySelector("#app-menu-button");
+
+  const menuOpen = () => {
+      app_menu.classList.add("open");
+      app_menu_btn.classList.add("open");
+  };
+
+  const menuClose = () => {
+    if (app_menu.classList.contains("open")) {
+      app_menu.classList.remove("open");
+      app_menu_btn.classList.remove("open");
+    }
+  };
+
+  app_menu_btn.addEventListener("click", _ => {
+    if (app_menu.classList.contains("open"))
+      menuClose();
+    else
+      menuOpen();
+  });
+
+  app_menu.querySelector("ul").addEventListener("click", menuClose);
+
   project_form = document.querySelector("#project-form");
 
   add_project_button = document.querySelector("#add-project-btn");

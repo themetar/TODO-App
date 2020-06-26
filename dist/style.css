@@ -64,6 +64,86 @@ form fieldset {
   display: none;
 }
 
+/* ***********
+  App menu bar
+************** */
+#menu-bar { position: relative; }
+
+#menu-bar header {
+  height: 60px;
+  position: relative;
+  text-align: center;
+}
+
+#menu-bar h1 {
+  font-size: 3rem;
+  line-height: 60px;
+}
+
+#app-menu-button {
+  position: absolute;
+  display: block;
+  height: 40px;
+  width: 40px;
+  top: 10px;
+  left: 10px;
+  border: 2px solid blue;
+  background-color: red;
+  border-radius: 4px;
+  cursor: pointer;
+}
+
+#app-menu-button::before,
+#app-menu-button div,
+#app-menu-button::after {
+  content: "";
+  display: block;
+  width: 80%;
+  height: 10%;
+  background-color: black;
+  border-radius: 25%;
+  position: absolute;
+  top: 45%;
+  left: 10%;
+  transform-origin: center center;
+  transition: transform .2s ease-in-out,
+              background .2s ease-in-out;
+}
+
+#app-menu-button::before {
+  transform: translateY(-250%);
+}
+
+#app-menu-button::after {
+  transform: translateY(250%);
+}
+
+#app-menu-button.open::before {
+  transform: rotate(45deg);
+}
+
+#app-menu-button.open div {
+  background-color: rgba(0, 0, 0, 0);
+}
+
+#app-menu-button.open::after {
+  transform: rotate(-45deg);
+}
+
+#app-menu {
+  background: white;
+  position: absolute;
+  height: calc(100vh - 60px);
+  width: 100vw;
+  z-index: 8888;
+  transform: translate(-100%);
+  transition: transform .3s cubic-bezier(0.645, 0.045, 0.355, 1)
+}
+
+#app-menu.open {
+  transform: translate(0);
+}
+
 .todo { display: flex; }
 
 .todo .title { flex-grow: 1; }
