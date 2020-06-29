@@ -285,9 +285,11 @@ const addTodo = function (todo) {
   const project_div = document.querySelector("#project-" + project_id);
 
   if (project_div) {
-    let todo_div = project_div.querySelector("#todo-" + todo.id);
+    const container = project_div.querySelector('.project-todos');
 
-    todo_div = todo_div || project_div.appendChild(createTodoElement(todo));
+    let todo_div = container.querySelector("#todo-" + todo.id);
+
+    todo_div = todo_div || container.appendChild(createTodoElement(todo));
   }
 
 
