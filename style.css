@@ -100,11 +100,30 @@ form fieldset {
   flex-direction: column;
 }
 
-.project header { display: flex; }
+.project header {
+  display: flex;
+  padding-bottom: .5em;
+  position: relative;
+}
+
+.project header::after {
+  content: "";
+  display: block;
+  width: 80%;
+  height: 3px;
+  position: absolute;
+  top: 100%;
+  transform: translate(12.5%);
+  background-color: royalblue;
+}
 
 .project header h2 { flex: 1; }
 
-.project .project-todos {  flex: 1; }
+.project .project-todos {
+  flex: 1;
+  padding-top: 1rem;
+  padding-bottom: 1rem;
+}
 
 .project > button {
   align-self: flex-end;
