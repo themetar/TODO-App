@@ -90,10 +90,29 @@ form fieldset {
 
   /* visual */
   padding: 1rem;
-  border-radius: 2em;
-  border: .5em solid transparent;
+  border-radius: 2rem;
+  border: .5rem solid transparent;
   background: lightcyan;
   background-clip: padding-box;
+
+  /* flex container */
+  display: flex;
+  flex-direction: column;
+}
+
+.project header { display: flex; }
+
+.project header h2 { flex: 1; }
+
+.project .project-todos {  flex: 1; }
+
+.project > button {
+  align-self: flex-end;
+  order: 1;
+
+  width: 4rem;
+  height: 4rem;
+  border-radius: 2rem;
 }
 
 /* ***********
