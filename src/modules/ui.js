@@ -90,10 +90,12 @@ const createProjectElement = function createProjectDisplayElement (project) {
   section.classList.add('project');
   section.setAttribute('id', 'project-' + project.id);
 
-  const h2 = section.appendChild(document.createElement('h2'));
+  const header = section.appendChild(document.createElement("header"));
+
+  const h2 = header.appendChild(document.createElement('h2'));
   h2.appendChild(document.createTextNode(project.title));
 
-  section.appendChild(etcMenu([
+  header.appendChild(etcMenu([
     {text: "Edit", data: {"project-id": project.id}, handler: editProjectHandler},
     {text: "Delete", data: {"project-id": project.id}, handler: deleteProjectHandler},
   ]));
