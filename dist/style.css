@@ -135,6 +135,23 @@ form fieldset {
 }
 
 /* ***********
+  Scroll interface
+************** */
+
+.scroller {
+  display: flex;
+  flex-flow: row nowrap;
+}
+
+.segment {
+  height: 1rem;
+  flex-grow: 1;
+  border: 1px solid red;
+}
+
+.segment.active { background-color: red; }
+
+/* ***********
   App menu bar
 ************** */
 #menu-bar { position: relative; }

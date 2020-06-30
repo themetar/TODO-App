@@ -5,6 +5,8 @@ let projects_collection;
 
 let projects_container;
 
+let scroll_controll;
+
 let todo_form;
 
 let add_project_button;
@@ -82,6 +84,7 @@ const deleteProjectHandler = function deleteProjectHandler (event) {
   const element = document.querySelector("#" + "project-" + project_id);
   element.parentElement.removeChild(element);
   events.publish("delete-project", {project_id: Number(project_id)});
+  scroll_controll.reconfig();
   console.log("delete project");
 };
 
@@ -178,6 +181,61 @@ const updateTodoElement = function (div, todo) {
     div.classList.add("done");
   else
     div.classList.remove("done");
+};
+
+const scrollIndicator = function scrollIndicator (scroll_div) {
+  let page;
+  let pages;
+
+  const element = document.createElement("div");
+
+  const _setStyles = function () {
+    for (let i = 0; i < element.children.length; i++) {
+      const child = element.children.item(i);
+      child.classList.remove("active");
+      if (i == page) child.classList.add("active");
+    }
+  }
+
+  const reconfig = function () {
+    pages = scroll_div.children.length;
+
+    console.log("pages", pages);
+
+    let num_segments = element.children.length;
+    if (num_segments < pages) {
+      for(let i = num_segments; i < pages; i++) {
+        const segment = element.appendChild(document.createElement("div"));
+        segment.classList.add("segment");
+
+        segment.addEventListener("click", _ => {
+          scroll_div.scrollTo({left: i * scroll_div.clientWidth, behavior: "smooth"});
+        });
+      }
+    } else {
+      const children = Array.prototype.slice.call(element.children, pages, num_segments);
+      children.forEach(child => {
+        element.removeChild(child);
+      });
+    }
+
+    page = Math.round(scroll_div.scrollLeft / scroll_div.clientWidth);
+
+    _setStyles();
+  };
+
+  scroll_div.addEventListener("scroll", _ => {
+    const _page = Math.round(scroll_div.scrollLeft / scroll_div.clientWidth);
+
+    if (_page !== page) {
+      page = _page;
+      _setStyles();
+    }
+  });
+
+  reconfig();
+
+  return {element, reconfig};
 };
 
 const initialize = function initializeUserInterface (projects) {
@@ -279,6 +337,10 @@ const initialize = function initializeUserInterface (projects) {
       todos_container.appendChild(todo_element);
     });
   });
+
+  scroll_controll = scrollIndicator(projects_container);
+  scroll_controll.element.classList.add("scroller");
+  document.querySelector("#content").appendChild(scroll_controll.element);
 };
 
 const addTodo = function (todo) {
@@ -310,6 +372,7 @@ const updateTodo = function (todo) {
 
 const addProject = function (project) {
   projects_container.appendChild(createProjectElement(project));
+  scroll_controll.reconfig();
 }
 
 const editProject = function showEditProjectForm (project) {
