@@ -7,7 +7,8 @@
   box-sizing: border-box;
 }
 
-fieldset { padding: 0; }
+fieldset,
+ul { padding: 0; }
 
 /* ***********
   Forms
@@ -218,11 +219,12 @@ form fieldset {
 }
 
 #app-menu {
-  background: white;
-  position: absolute;
   height: calc(100vh - 60px);
   width: 100vw;
+  position: absolute;
   z-index: 8888;
+  background: white;
+  padding: 1rem;
   transform: translate(-100%);
   transition: transform .3s cubic-bezier(0.645, 0.045, 0.355, 1)
 }
@@ -231,9 +233,23 @@ form fieldset {
   transform: translate(0);
 }
 
-.todo { display: flex; }
+#app-menu ul { list-style: none; }
 
-.todo .title { flex-grow: 1; }
+#app-menu li > * { width: 100%; }
+
+/* ***********
+  Todos
+************** */
+
+.todo {
+  display: flex;
+  padding: .75em 1em; 
+}
+
+.todo .title {
+  flex-grow: 1;
+  cursor: pointer;
+}
 
 .todo > :nth-child(n+2) { margin-left: 1em; }
 
