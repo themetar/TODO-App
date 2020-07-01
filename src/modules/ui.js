@@ -56,10 +56,12 @@ const etcMenu = function (structure) {
   div.classList.add('etc-menu');
 
   const etc = div.appendChild(document.createElement('div'));
-  etc.textContent = "etc";
+  etc.classList.add("etc");
+  etc.appendChild(document.createElement("span"));
   etc.addEventListener('click', etcOpenHandler);
 
   const menu = div.appendChild(document.createElement('ul'));
+  menu.classList.add("menu");
 
   for (const entry of structure) {
     const li = menu.appendChild(document.createElement('li'));
