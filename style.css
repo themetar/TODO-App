@@ -243,17 +243,56 @@ form fieldset {
 
 .todo {
   display: flex;
-  padding: .75em 1em; 
+  flex-flow: row nowrap;
+  padding-left: .5em;
+  padding-right: .5em;
 }
 
 .todo .title {
   flex-grow: 1;
   cursor: pointer;
+  padding: .5em;
 }
 
 .todo > :nth-child(n+2) { margin-left: 1em; }
 
 .todo.done { background: green; }
+
+.check {
+  position: relative;
+  cursor: pointer;
+}
+
+.check input {
+  display: none;
+}
+
+.check .checkmark {
+  top: 50%;
+  transform: translateY(-50%);
+  position: relative;
+  display: inline-block;
+  width: 1em;
+  height: 1em;
+  background-color: gray;
+  pointer-events: none;
+}
+
+.check .checkmark::after {
+  content: "";
+  width: 40%;
+  height: 90%;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  border: solid white;
+  border-width: 3px 0 0 3px;
+  transform-origin: left top;
+  transform: rotate(220deg);
+  display: none;
+}
+
+.check input:checked ~ .checkmark::after { display: block; }
 
 /* ***********
   Etc Menu
