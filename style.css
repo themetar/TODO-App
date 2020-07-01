@@ -130,6 +130,11 @@ header h2 {
 
 .project header .etc-menu { align-self: center; }
 
+.project header .etc {
+  border-width: 0;
+  background: transparent;
+}
+
 .project .project-todos {
   height: 100%;
   overflow-y: auto;
@@ -345,17 +350,38 @@ header h2 {
 
 .etc-menu { position: relative; }
 
-.etc-menu div {
-  height: 100%;
+.etc-menu .etc {
+  height: 2rem;
+  width: 2rem;
   cursor: pointer;
+  border-radius: .25rem;
+  position: relative;
+  background-color: rgba(255, 255, 255, .33);
 }
+
+.etc span,
+.etc::before,
+.etc::after {
+  content: "";
+  display: block;
+  width: 5px;
+  height: 5px;
+  background-color: black;
+  border-radius: 2.5px;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+}
+
+.etc::before { left: 20%; }
+.etc::after { left: 80%; }
 
 .etc-menu ul {
   position: absolute;
   right: 0;
   list-style: none;
   padding: .2em;
-  margin: 0;
   z-index: 9999;
   transform: scaleY(0);
   transform-origin: center top;
@@ -367,11 +393,13 @@ header h2 {
 .etc-menu.open ul { transform: scaleY(1); }
 
 .etc-menu li {
-  padding: .4em;
+  padding: .4em .5em;
   cursor: pointer;
 }
 
 .etc-menu li:hover { background-color: rgba(0, 0, 0, .05); }
+
+.etc-menu li:active { background-color: rgba(0, 0, 0, .1); }
 
 .project > .etc-menu {
   float: right;
