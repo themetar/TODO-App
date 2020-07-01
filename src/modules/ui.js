@@ -136,7 +136,7 @@ const editTodoHandler = function editTodoHandler (event) {
 };
 
 const markTodoHandler = function (event) {
-  let todo_id = this.parentElement.getAttribute("id");
+  let todo_id = this.parentElement.parentElement.getAttribute("id");
   todo_id = todo_id.replace("todo-", "");
   console.log("change", this.checked);
   events.publish("update-todo", {todo_id, done: this.checked});
@@ -149,10 +149,14 @@ const createTodoElement = function createTodoDisplayElement (todo) {
   if (todo.done) div.classList.add("done");
 
   /* checkbox */
-  const check = div.appendChild(document.createElement('input'));
+  const label = div.appendChild(document.createElement("label"));
+  label.classList.add("check");
+  const check = label.appendChild(document.createElement('input'));
   check.setAttribute('type', 'checkbox');
   check.checked = todo.done;
   check.addEventListener('change', markTodoHandler);
+  const checkmark = label.appendChild(document.createElement("span"));
+  checkmark.classList.add("checkmark");
 
   /* title and date */
   const title = div.appendChild(document.createElement('span'));
