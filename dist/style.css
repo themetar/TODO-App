@@ -8,7 +8,8 @@
 }
 
 fieldset,
-ul { padding: 0; }
+ul,
+button { padding: 0; }
 
 input,
 textarea,
@@ -25,6 +26,7 @@ button {
   --logo-color: greenyellow;
   --action-color: yellow;
   --action-highlight: orange;
+  --success: green;
 }
 
 html {
@@ -145,7 +147,7 @@ form fieldset {
   z-index: 2;
 
   display: flex;
-  padding: 0 1.5rem;
+  padding: 0 .75rem;
   background-color: var(--logo-color);
 }
 
@@ -315,8 +317,7 @@ header h2 {
 .todo {
   display: flex;
   flex-flow: row nowrap;
-  padding-left: .75rem;
-  padding-right: .75rem;
+  position: relative;
 }
 
 .todo .etc-menu,
@@ -327,15 +328,37 @@ header h2 {
 .todo .title {
   flex-grow: 1;
   cursor: pointer;
-  padding: .5em;
+  padding: .75rem .25rem;
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
 }
 
+.todo .title,
+.todo .due-date { transition: color .2s ease-in; }
+
+.todo.done .title,
+.todo.done .due-date { color: gray; }
+
 .todo > :nth-child(n+2) { margin-left: 1em; }
 
-.todo.done { background: green; }
+.todo::after {
+  content: "";
+  display: block;
+  width: calc(100% - 4rem);
+  height: 2px;
+  margin-left: 1.5rem;
+  position: absolute;
+  top: 50%;
+  background: var(--success);
+  transform: scaleX(0);
+  transform-origin: left;
+  transition: transform .2s ease-in;
+}
+
+.todo.done::after {
+  transform: scaleX(1);
+}
 
 .check {
   position: relative;
@@ -351,20 +374,22 @@ header h2 {
   transform: translateY(-50%);
   position: relative;
   display: inline-block;
-  width: 1em;
-  height: 1em;
-  background-color: gray;
+  width: 1.25rem;
+  height: 1.25rem;
+  background-color: white;
+  border: 1px solid var(--success);
+  border-radius: 4px;
   pointer-events: none;
 }
 
 .check .checkmark::after {
   content: "";
-  width: 40%;
-  height: 90%;
+  width: 30%;
+  height: 80%;
   position: absolute;
-  top: 50%;
+  top: 60%;
   left: 50%;
-  border: solid white;
+  border: solid var(--success);
   border-width: 3px 0 0 3px;
   transform-origin: left top;
   transform: rotate(220deg);
