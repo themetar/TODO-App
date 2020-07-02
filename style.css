@@ -12,7 +12,10 @@ ul { padding: 0; }
 
 input,
 textarea,
-button { font-size: inherit; }
+button {
+  font-size: inherit;
+  font-family: inherit;
+}
 
 /* ***********
   Global
@@ -27,6 +30,14 @@ button { font-size: inherit; }
 html {
   font-size: 14px;
 }
+
+button {
+  border-radius: 1rem;
+  border: 2px solid rgba(0, 0, 0, .1);
+  background: var(--action-color);
+}
+
+button:hover { background: var(--action-highlight); }
 
 /* ***********
   Forms
