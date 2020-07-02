@@ -248,8 +248,8 @@ header h2 {
   width: 40px;
   top: 10px;
   left: 10px;
-  border: 2px solid blue;
-  background-color: red;
+  border: 2px solid #cccccc;
+  background-color: #aeaeae;
   border-radius: 4px;
   cursor: pointer;
 }
@@ -259,16 +259,17 @@ header h2 {
 #app-menu-button::after {
   content: "";
   display: block;
-  width: 80%;
+  width: 75%;
   height: 10%;
-  background-color: black;
-  border-radius: 25%;
+  background-color: white;
+  border-radius: 4px;
   position: absolute;
   top: 45%;
   left: 10%;
   transform-origin: center center;
   transition: transform .2s ease-in-out,
-              background .2s ease-in-out;
+              opacity .2s ease-in-out;
+  /* box-shadow: inset 2px 2px rgba(0, 0, 0, .5); */
 }
 
 #app-menu-button::before {
@@ -284,7 +285,7 @@ header h2 {
 }
 
 #app-menu-button.open div {
-  background-color: rgba(0, 0, 0, 0);
+  opacity: 0;
 }
 
 #app-menu-button.open::after {
