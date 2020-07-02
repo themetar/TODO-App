@@ -18,6 +18,12 @@ button { font-size: inherit; }
   Global
 ************** */
 
+:root {
+  --logo-color: greenyellow;
+  --action-color: yellow;
+  --action-highlight: orange;
+}
+
 html {
   font-size: 14px;
 }
@@ -129,7 +135,7 @@ form fieldset {
 
   display: flex;
   padding: 0 1.5rem;
-  background-color: greenyellow;
+  background-color: var(--logo-color);
 }
 
 header h2 {
@@ -219,6 +225,7 @@ header h2 {
 #menu-bar h1 {
   font-size: 2rem;
   line-height: 60px;
+  color: var(--logo-color);
 }
 
 #app-menu-button {
