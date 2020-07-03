@@ -26,7 +26,8 @@ const openForm = function openForm (form, params = {}) {
   resetForm(form);
   for (const key in params) {
     const element = form.querySelector("[name=" + key + "]");
-    if (element) element.value = params[key];
+    const value = params[key] && params[key].toISOString ? params[key].toISOString().substr(0, 10) : params[key];  // for due_date
+    if (element) element.value = value;
   }
   form.querySelector('input[name=title]').focus();
 }
