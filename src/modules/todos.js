@@ -22,6 +22,9 @@ const makeTodo = function makeTodo_Factory ({title, project_id, description = ""
 
   const pid = parseInt(project_id);
 
+  due_date = due_date || null;                // swap all falsey values with null
+  due_date = due_date && new Date(due_date);  // convert to Date if not null
+
   return {
     title,
     description,
