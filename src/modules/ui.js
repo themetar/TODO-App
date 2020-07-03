@@ -149,32 +149,29 @@ const createTodoElement = function createTodoDisplayElement (todo) {
   const div = document.createElement('div');
   div.classList.add('todo');
   div.setAttribute('id', 'todo-' + todo.id);
-  if (todo.done) div.classList.add("done");
 
   /* checkbox */
   const label = div.appendChild(document.createElement("label"));
   label.classList.add("check");
-  const check = label.appendChild(document.createElement('input'));
-  check.setAttribute('type', 'checkbox');
-  check.checked = todo.done;
-  check.addEventListener('change', markTodoHandler);
+  const checkbox = label.appendChild(document.createElement('input'));
+  checkbox.setAttribute('type', 'checkbox');
+  checkbox.addEventListener('change', markTodoHandler);
   const checkmark = label.appendChild(document.createElement("span"));
   checkmark.classList.add("checkmark");
 
   /* title and date */
   const title = div.appendChild(document.createElement('span'));
   title.classList.add('title');
-  title.appendChild(document.createTextNode(todo.title));
   title.addEventListener("click", editTodoHandler);
 
   const date = div.appendChild(document.createElement('span'));
   date.classList.add('due-date');
-  date.appendChild(document.createTextNode(todo.due_date ? todo.due_date : ""));
 
-  /*
-   todo etc menu here
-  */
+  /* etc menu */
   div.appendChild(etcMenu([{text: "Delete", data: {"todo-id": todo.id}, handler: deleteTodoHandler}]));
+
+  /* set values */
+  updateTodoElement(div, todo);
 
   return div;
 };
@@ -184,6 +181,8 @@ const updateTodoElement = function (div, todo) {
   title.textContent = todo.title;
   const due_date = div.querySelector("span.due-date");
   due_date.textContent = todo.due_date;
+  const checkbox = div.querySelector("input[type=checkbox]");
+  if (todo.done != checkbox.checked) checkbox.checked = todo.done;
   if (todo.done)
     div.classList.add("done");
   else
