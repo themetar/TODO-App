@@ -1,5 +1,12 @@
 import * as events from './utils/pubsub';
 import { deleteProject } from './todos';
+import {formatRelative, formatDistanceToNow, differenceInCalendarDays} from 'date-fns';
+
+const formatDate = function (date) {
+  const now = new Date();
+  const difference = differenceInCalendarDays(date, now);
+  return Math.abs(difference) < 7 ? formatRelative(date, now).split(" at ")[0] : formatDistanceToNow(date, {addSuffix: true});
+}
 
 let projects_collection;
 
@@ -180,7 +187,7 @@ const updateTodoElement = function (div, todo) {
   const title = div.querySelector('span.title');
   title.textContent = todo.title;
   const due_date = div.querySelector("span.due-date");
-  due_date.textContent = todo.due_date;
+  due_date.textContent = todo.due_date && formatDate(todo.due_date) || "";
   const checkbox = div.querySelector("input[type=checkbox]");
   if (todo.done != checkbox.checked) checkbox.checked = todo.done;
   if (todo.done)
