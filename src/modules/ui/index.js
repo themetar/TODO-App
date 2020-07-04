@@ -1,5 +1,4 @@
-import * as events from './utils/pubsub';
-import { deleteProject } from './todos';
+import * as events from '../utils/pubsub';
 import {formatRelative, formatDistanceToNow, differenceInCalendarDays} from 'date-fns';
 
 const formatDate = function (date) {
