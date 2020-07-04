@@ -10,7 +10,32 @@ import * as Storage from './storage';
 
 const todosIDs = makeUIDTracker();
 
-const makeTodo = function makeTodo_Factory ({title, project_id, description = "", due_date = null, done = false, id = null}) {
+const validProperties = function ({title, project_id, description = "", due_date = null, done = false, id = null}) {
+  project_id = parseInt(project_id);
+
+  due_date = due_date || null;                // swap all falsey values with null
+  due_date = due_date && new Date(due_date);  // convert to Date if not null
+  
+  return {
+    title,
+    project_id,
+    description,
+    due_date,
+    done,
+    id,
+  };
+};
+
+const makeTodo = function makeTodo_Factory (properties) {
+  const valid = validProperties(properties);
+
+  const title       = valid.title;
+  const project_id  = valid.project_id;
+  const description = valid.description;
+  const due_date    = valid.due_date;
+  const done        = valid.done;
+  const id          = valid.id;
+  
   let oid;
   
   if (id) {
@@ -20,10 +45,7 @@ const makeTodo = function makeTodo_Factory ({title, project_id, description = ""
     oid = todosIDs.getID();
   }
 
-  const pid = parseInt(project_id);
-
-  due_date = due_date || null;                // swap all falsey values with null
-  due_date = due_date && new Date(due_date);  // convert to Date if not null
+  const pid = project_id;
 
   return {
     title,
@@ -33,8 +55,9 @@ const makeTodo = function makeTodo_Factory ({title, project_id, description = ""
     get id () { return oid; },
     get project_id () { return pid; },
     update: function (todo) {
+      const valid = validProperties(todo);
       for (const prop of ["title", "description", "due_date", "done"])
-        if (todo.hasOwnProperty(prop)) this[prop] = todo[prop];
+        this[prop] = valid[prop];
       Storage.storeItem("todo", this);
     },
   }
