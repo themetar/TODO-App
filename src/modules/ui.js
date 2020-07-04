@@ -20,17 +20,10 @@ let add_project_button;
 
 let project_form;
 
-const resetForm = function resetFormInputs (form) {
-  for (const input of form.querySelectorAll("input"))
-    input.value = "";
-  
-  const textarea = form.querySelector('textarea[name=description]');
-  if (textarea) textarea.value = "";
-}
-
 const openForm = function openForm (form, params = {}) {
   form.classList.remove('hidden');
-  resetForm(form);
+  form.firstElementChild.reset();
+  for (const input of form.querySelectorAll("input[type=hidden]")) input.value = "";
   for (const key in params) {
     const element = form.querySelector("[name=" + key + "]");
     const value = params[key] && params[key].toISOString ? params[key].toISOString().substr(0, 10) : params[key];  // for due_date
