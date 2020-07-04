@@ -57,7 +57,7 @@ const makeTodo = function makeTodo_Factory (properties) {
     update: function (todo) {
       const valid = validProperties(todo);
       for (const prop of ["title", "description", "due_date", "done"])
-        this[prop] = valid[prop];
+        if (todo.hasOwnProperty(prop)) this[prop] = valid[prop];
       Storage.storeItem("todo", this);
     },
   }
