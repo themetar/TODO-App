@@ -2,7 +2,8 @@
   Resets
 ************** */
 
-* {
+*,
+*::before, *::after {
   margin: 0;
   box-sizing: border-box;
 }
@@ -219,10 +220,30 @@ header h2 {
 .segment {
   height: 1rem;
   flex-grow: 1;
-  border: 1px solid red;
+  position: relative;
 }
 
-.segment.active { background-color: red; }
+.segment::before {
+  content: "";
+  display: block;
+  height: 1rem;
+  width: 1rem;
+  position: absolute;
+  left: 50%;
+  transform: translate(-50%) scale(.6, .6);
+  border-radius: 50%;
+  border: 1px solid rgba(0, 0, 0, .1);
+  background-color: var(--action-color);
+  transition-property: transform, background-color, border-color;
+  transition-duration: .2s;
+}
+
+.segment.active::before {
+  border-color: var(--logo-color);
+  background-color: var(--logo-color);
+  box-shadow: 0 0 2px var(--logo-color);
+  transform: translate(-50%) scale(1, 1);
+}
 
 /* ***********
   App menu bar
