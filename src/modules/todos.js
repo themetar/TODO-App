@@ -6,9 +6,44 @@ import makeUIDTracker from './utils/uid';
 import collection from './utils/collection';
 import * as Storage from './storage';
 
-/* Todo object factory */
+/* Records */
 
-const todosIDs = makeUIDTracker();
+const makeMaker = function (prefix, validator) {
+  const uids = makeUIDTracker();
+
+  const _save = function () {
+    Storage.storeItem(prefix, this);
+  }
+
+  const _update = function (properties) {
+    const valid = validator(properties);
+    for (const prop of valid)
+      if (this.hasOwnProperty(prop)) this[prop] = valid[prop];
+    this.save();
+  };
+
+  const _delete = function () {
+    uids.freeID(this.id);
+    Storage.deleteItem(prefix, this);
+  }
+
+  const make = function (properties) {
+    const obj = validator(properties);
+
+    if (obj.hasOwnProperty("id") && obj.id != null) {
+      obj.id = parseInt(obj.id);
+      uids.markID(obj.id);
+    } else {
+      obj.id = uids.getID();
+    }
+
+    return Object.assign(obj, {update: _update, save: _save, delete: _delete});
+  };
+
+  return {make};
+};
+
+/* Todo object factory */
 
 const validProperties = function ({title, project_id, description = "", due_date = null, done = false, id = null}) {
   project_id = parseInt(project_id);
@@ -26,42 +61,8 @@ const validProperties = function ({title, project_id, description = "", due_date
   };
 };
 
-const makeTodo = function makeTodo_Factory (properties) {
-  const valid = validProperties(properties);
+const Todo = makeMaker("todo", validProperties);
 
-  const title       = valid.title;
-  const project_id  = valid.project_id;
-  const description = valid.description;
-  const due_date    = valid.due_date;
-  const done        = valid.done;
-  const id          = valid.id;
-  
-  let oid;
-  
-  if (id) {
-    oid = parseInt(id);
-    todosIDs.markID(oid);
-  } else {
-    oid = todosIDs.getID();
-  }
-
-  const pid = project_id;
-
-  return {
-    title,
-    description,
-    due_date,
-    done,
-    get id () { return oid; },
-    get project_id () { return pid; },
-    update: function (todo) {
-      const valid = validProperties(todo);
-      for (const prop of ["title", "description", "due_date", "done"])
-        if (todo.hasOwnProperty(prop)) this[prop] = valid[prop];
-      Storage.storeItem("todo", this);
-    },
-  }
-};
 
 const todos_arr = []; // array to store collection of all todos
 
@@ -72,7 +73,7 @@ const project_prototype = (function projectPrototypeIIF () {
   const project_todos = new Map();  // asociation between projects and todos
 
   const addTodo = function addTodoThroughProject (todo_data) {
-    const todo = makeTodo(Object.assign({}, todo_data, {project_id: this.id}));
+    const todo = Todo.make(Object.assign({}, todo_data, {project_id: this.id}));
 
     todos_arr.push(todo); // add to all todos
 
@@ -80,7 +81,7 @@ const project_prototype = (function projectPrototypeIIF () {
     const _todos = (project_todos.has(this.id) && project_todos || project_todos.set(this.id, [])).get(this.id);
     _todos.push(todo);
 
-    Storage.storeItem("todo", todo);  // permanently store todo
+    todo.save();
 
     return todo;
   };
@@ -178,13 +179,13 @@ const deleteTodo = function (id) {
   const project = projects_arr.find(proj => proj.id === todo.project_id);
   project.removeTodo(todo);
   // delete from storage
-  Storage.deleteItem("todo", todo);
+  todo.delete();
 };
 
 /* Initialize from storage */
 
 Storage.readAll({
-  todo: data => { todos_arr.push(makeTodo(data)); },
+  todo: data => { todos_arr.push(Todo.make(data)); },
   project: data => { projects_arr.push(makeProject(data)); },
 });
 
