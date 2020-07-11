@@ -1,6 +1,7 @@
-import {Todo, Project, addProject, deleteTodo, deleteProject, todos, projects} from './modules/todos';
+import {Todo, Project, addProject, deleteTodo, deleteProject, projects} from './modules/todos';
 import * as UI from './modules/ui';
 
+const todos = Todo.all();
 if (todos.length === 0) {
   const project = addProject({title: "default"});
   console.log("create new")
@@ -10,7 +11,7 @@ if (todos.length === 0) {
 
 console.log(todos.length);
 
-todos.each(todo => console.log(todo, todo.id));
+todos.forEach(todo => console.log(todo, todo.id));
 
 console.log( todos.map(td => {
     let o = Object.assign({}, td);
@@ -19,7 +20,7 @@ console.log( todos.map(td => {
     return o;
   }) );
 
-todos.each(todo => console.log(todo));
+todos.forEach(todo => console.log(todo));
 
 projects.each(prj => {
       console.log(prj);

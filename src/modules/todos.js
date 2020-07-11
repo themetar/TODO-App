@@ -186,7 +186,6 @@ const deleteProject = function (id) {
 
 /* Exposed collections of projects and todos */
 
-const todos = collection(todos_arr);
 const projects = collection(projects_arr);
 
 
@@ -210,4 +209,4 @@ Storage.readAll({
   project: data => { projects_arr.push(makeProject(data)); },
 });
 
-export {addProject, deleteProject, deleteTodo, todos, projects, Todo, Project};
+export {addProject, deleteProject, deleteTodo, projects, Todo, Project};
