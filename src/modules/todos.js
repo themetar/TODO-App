@@ -129,31 +129,14 @@ const project_prototype = (function projectPrototypeIIF () {
     get todos () {
       return collectionForProject(this.id);
     },
-    update: function (project) {
-      for (const prop of ["title", "description"])
-        if (project.hasOwnProperty(prop)) this[prop] = project[prop];
-      Storage.storeItem("project", this);
-    },
   };
 }());
 
-const projectIDs = makeUIDTracker();
+const Project = makeMaker("project", ({title, description = "", id = null}) => { return {title, description, id};});
 
-const makeProject = function makeProject_Factory ({title, description = "", id = null}) {
-  let oid;
-  
-  if (id) {
-    oid = parseInt(id);
-    projectIDs.markID(oid);
-  } else {
-    oid = projectIDs.getID();
-  }
+const makeProject = function makeProject_Factory (project_data) {
 
-  const project_obj = {
-    title,
-    description,
-    get id () { return oid; },
-  };
+  const project_obj = Project.make(project_data);
 
   return Object.assign(Object.create(project_prototype), project_obj);
 }
