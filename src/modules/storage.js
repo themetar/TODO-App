@@ -4,6 +4,8 @@
 
 const available = !!(window && window.localStorage);
 
+const key = (prefix, id) => `${prefix}-${id}`;
+
 const readAll = function readAllObjectsFromStorage (processors = {}) {
   if (available) {
     const len = localStorage.length;
@@ -25,7 +27,7 @@ const readAll = function readAllObjectsFromStorage (processors = {}) {
 
 const storeItem = function storeObject (prefix, item) {
   if (available) {
-    localStorage.setItem(prefix + item.id, JSON.stringify(item));
+    localStorage.setItem(key(prefix, item.id), JSON.stringify(item));
   }
 }
 
@@ -35,4 +37,4 @@ const deleteItem = function deleteObject (prefix, item) {
   }
 }
 
-export { available, readAll, storeItem, deleteItem };
+export { available, readAll, storeItem, readItem, deleteItem };
