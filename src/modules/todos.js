@@ -21,7 +21,10 @@ import * as Storage from './storage';
 const makeMaker = function (prefix, validator) {
   const uids = makeUIDTracker();
 
+  const __all = [];
+
   const _save = function () {
+    __all.push(this.id);
     Storage.storeItem(prefix, this);
   }
 
@@ -34,6 +37,7 @@ const makeMaker = function (prefix, validator) {
 
   const _delete = function () {
     uids.freeID(this.id);
+    __all.splice(__all.indexOf(this.id), 1);
     Storage.deleteItem(prefix, this);
   }
 
@@ -56,7 +60,25 @@ const makeMaker = function (prefix, validator) {
       return make(data);
   };
 
-  return {make, findByID};
+  const all = function () {
+    let objects = [];
+    
+    if (__all.length === 0) {
+      const processor = {};
+      processor[prefix] = (data) => {
+        const o = make(data);
+        objects.push(o);
+        __all.push(o.id);
+      };
+      Storage.readAll(processor);
+    } else {
+      objects = __all.map(id => findByID(id));
+    }
+
+    return objects;
+  };
+
+  return {make, findByID, all};
 };
 
 /* Todo object factory */
@@ -188,4 +210,4 @@ Storage.readAll({
   project: data => { projects_arr.push(makeProject(data)); },
 });
 
-export {addProject, deleteProject, deleteTodo, todos, projects, Todo};
+export {addProject, deleteProject, deleteTodo, todos, projects, Todo, Project};
