@@ -1,4 +1,4 @@
-import {addProject, deleteTodo, deleteProject, todos, projects} from './modules/todos';
+import {Todo, addProject, deleteTodo, deleteProject, todos, projects} from './modules/todos';
 import * as UI from './modules/ui';
 
 if (todos.length === 0) {
@@ -48,12 +48,12 @@ UI.events.subscribe('new-todo', (event, data) => {
 });
 
 UI.events.subscribe("edit-todo", (event, data) => {
-  const todo = todos.find({id: data.todo_id});
+  const todo = Todo.findByID(data.todo_id);
   UI.editTodo(todo);
 });
 
 UI.events.subscribe("update-todo", (event, data) => {
-  const todo = todos.find({id: data.todo_id});
+  const todo = Todo.findByID(data.todo_id);
   todo.update(data);
   UI.updateTodo(todo);
 });
