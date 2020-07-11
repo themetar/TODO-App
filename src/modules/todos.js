@@ -6,7 +6,17 @@ import makeUIDTracker from './utils/uid';
 import collection from './utils/collection';
 import * as Storage from './storage';
 
-/* Records */
+/*  Records 
+
+    Requirements from the data model:
+     - get all records ,e.d. all projects
+     - find by id
+     - make new record
+     - records:
+        * save
+        * update
+        * delete 
+*/
 
 const makeMaker = function (prefix, validator) {
   const uids = makeUIDTracker();
@@ -40,7 +50,13 @@ const makeMaker = function (prefix, validator) {
     return Object.assign(obj, {update: _update, save: _save, delete: _delete});
   };
 
-  return {make};
+  const findByID = function (id) {
+    const data = Storage.readItem(prefix, id);
+    if (data)
+      return make(data);
+  };
+
+  return {make, findByID};
 };
 
 /* Todo object factory */
@@ -189,4 +205,4 @@ Storage.readAll({
   project: data => { projects_arr.push(makeProject(data)); },
 });
 
-export {addProject, deleteProject, deleteTodo, todos, projects};
+export {addProject, deleteProject, deleteTodo, todos, projects, Todo};
