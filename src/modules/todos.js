@@ -27,7 +27,7 @@ const makeMaker = function (prefix, validator) {
 
   const _update = function (properties) {
     const valid = validator(properties);
-    for (const prop of valid)
+    for (const prop in properties)
       if (this.hasOwnProperty(prop)) this[prop] = valid[prop];
     this.save();
   };
