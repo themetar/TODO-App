@@ -43,7 +43,7 @@ const readItem = function readObject (prefix, id) {
 
 const deleteItem = function deleteObject (prefix, item) {
   if (available) {
-    localStorage.removeItem(prefix + item.id);
+    localStorage.removeItem(key(prefix, item.id));
   }
 }
 
