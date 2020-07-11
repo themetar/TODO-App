@@ -1,4 +1,4 @@
-import {Todo, addProject, deleteTodo, deleteProject, todos, projects} from './modules/todos';
+import {Todo, Project, addProject, deleteTodo, deleteProject, todos, projects} from './modules/todos';
 import * as UI from './modules/ui';
 
 if (todos.length === 0) {
@@ -27,7 +27,7 @@ projects.each(prj => {
       prj.todos.each(td => console.log(prj.id, td));
     });
 
-UI.initialize(projects);
+UI.initialize(Project.all());
 
 UI.events.subscribe('new-todo', (event, data) => {
   console.log("new todo handler");

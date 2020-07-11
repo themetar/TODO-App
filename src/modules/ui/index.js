@@ -240,14 +240,14 @@ const initialize = function initializeUserInterface (projects) {
     closeForm(todo_form);
   });
 
-  projects_collection.each(project => {
+  for (const project of projects_collection) {
     const project_element = projects_container.appendChild(createProjectElement(project));
     const todos_container = project_element.querySelector('.project-todos');
     project.todos.each(todo => {
       const todo_element = createTodoElement(todo);
       todos_container.appendChild(todo_element);
     });
-  });
+  }
 
   scroll_controll = scrollIndicator(projects_container);
   scroll_controll.element.classList.add("scroller");
