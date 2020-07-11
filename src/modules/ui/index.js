@@ -8,7 +8,7 @@ const formatDate = function (date) {
   return Math.abs(difference) < 7 ? formatRelative(date, now).split(" at ")[0] : formatDistanceToNow(date, {addSuffix: true});
 }
 
-let projects_collection;
+let all_projects;
 
 let projects_container;
 
@@ -149,8 +149,7 @@ const updateTodoElement = function (div, todo) {
     div.classList.remove("done");
 };
 
-const initialize = function initializeUserInterface (projects) {
-  projects_collection = projects;
+const initialize = function initializeUserInterface (all_projects, all_todos) {
 
   const app_menu = document.querySelector("#app-menu");
   const app_menu_btn = document.querySelector("#app-menu-button");
@@ -240,13 +239,14 @@ const initialize = function initializeUserInterface (projects) {
     closeForm(todo_form);
   });
 
-  for (const project of projects_collection) {
-    const project_element = projects_container.appendChild(createProjectElement(project));
+  for (const project of all_projects) {
+    projects_container.appendChild(createProjectElement(project));
+  }
+
+  for (const todo of all_todos) {
+    const project_element = projects_container.querySelector("#project-" + todo.project_id);
     const todos_container = project_element.querySelector('.project-todos');
-    project.todos.each(todo => {
-      const todo_element = createTodoElement(todo);
-      todos_container.appendChild(todo_element);
-    });
+    todos_container.appendChild(createTodoElement(todo));
   }
 
   scroll_controll = scrollIndicator(projects_container);

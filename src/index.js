@@ -28,7 +28,7 @@ projects.each(prj => {
       prj.todos.each(td => console.log(prj.id, td));
     });
 
-UI.initialize(Project.all());
+UI.initialize(Project.all(), Todo.all());
 
 UI.events.subscribe('new-todo', (event, data) => {
   console.log("new todo handler");
