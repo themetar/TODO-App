@@ -1,4 +1,4 @@
-import {Todo, Project, projects} from './modules/todos';
+import {Todo, Project} from './modules/todos';
 import * as UI from './modules/ui';
 
 const todos = Todo.all();
@@ -21,12 +21,6 @@ console.log( todos.map(td => {
   }) );
 
 todos.forEach(todo => console.log(todo));
-
-projects.each(prj => {
-      console.log(prj);
-      console.log(prj.todos);
-      prj.todos.each(td => console.log(prj.id, td));
-    });
 
 UI.initialize(Project.all(), Todo.all());
 
