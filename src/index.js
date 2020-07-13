@@ -1,4 +1,4 @@
-import {Todo, Project, addProject, deleteTodo, deleteProject, projects} from './modules/todos';
+import {Todo, Project, projects} from './modules/todos';
 import * as UI from './modules/ui';
 
 const todos = Todo.all();
@@ -35,15 +35,8 @@ UI.events.subscribe('new-todo', (event, data) => {
   console.log(event);
   console.log(data);
 
-  let proj = (function (){
-    let project;
-    projects.each(proj => {
-      if (proj.id == data.project_id) project = proj; return;
-    });
-    return project;
-  }());
-
-  let todo = proj.addTodo(data);
+  const todo = Todo.make(data);
+  todo.save();
 
   UI.addTodo(todo);
 });
@@ -60,27 +53,29 @@ UI.events.subscribe("update-todo", (event, data) => {
 });
 
 UI.events.subscribe("delete-todo", (_, data) => {
-  deleteTodo(data.todo_id);
+  const todo = Todo.findByID(data.todo_id);
+  todo.delete();
 });
 
 UI.events.subscribe("new-project", (_, data) => {
-  const project = addProject(data);
+  const project = Project.make(data);
+  project.save();
   UI.addProject(project);
 });
 
 UI.events.subscribe("edit-project", (event, data) => {
-  const project = projects.find({id: data.project_id});
+  const project = Project.findByID(data.project_id);
   UI.editProject(project);
 });
 
 UI.events.subscribe("update-project", (event, data) => {
-  const project = projects.find({id: data.project_id});
+  const project = Project.findByID(data.project_id);
   project.update(data);
   UI.updateProject(project);
 });
 
 UI.events.subscribe("delete-project", (_, data) => {
-  const project = projects.find({id: data.project_id});
-  project.todos.each(td => deleteTodo(td.id));
-  deleteProject(project.id);
+  const project = Project.findByID(data.project_id);
+  Todo.all().filter(todo => todo.project_id === project.id).forEach(todo => todo.delete());
+  project.delete();
 });

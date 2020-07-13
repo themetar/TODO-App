@@ -165,42 +165,9 @@ const makeProject = function makeProject_Factory (project_data) {
 
 const projects_arr = [];  // to store collection of all projects
 
-/* Exposed method for creating Projects */
-
-const addProject = function makeAndStoreNewProject (project_data) {
-  const project = makeProject(project_data);
-  projects_arr.push(project);
-  Storage.storeItem("project", project);
-  return project;
-}
-
-/* Exposed method for deleting Projects */
-
-const deleteProject = function (id) {
-  const index = projects_arr.findIndex(project => project.id === id);
-  // remove from array
-  const project = projects_arr.splice(index, 1)[0];
-  // delete
-  Storage.deleteItem("project", project);
-};
-
 /* Exposed collections of projects and todos */
 
 const projects = collection(projects_arr);
-
-
-/* Exposed method for deleting todos */
-
-const deleteTodo = function (id) {
-  const index = todos_arr.findIndex(todo => todo.id === id);
-  // delete from arr
-  const todo = todos_arr.splice(index, 1)[0];
-  // remove from project
-  const project = projects_arr.find(proj => proj.id === todo.project_id);
-  project.removeTodo(todo);
-  // delete from storage
-  todo.delete();
-};
 
 /* Initialize from storage */
 
@@ -209,4 +176,4 @@ Storage.readAll({
   project: data => { projects_arr.push(makeProject(data)); },
 });
 
-export {addProject, deleteProject, deleteTodo, projects, Todo, Project};
+export {projects, Todo, Project};
