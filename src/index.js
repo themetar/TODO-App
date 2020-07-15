@@ -3,10 +3,11 @@ import * as UI from './modules/ui';
 
 const todos = Todo.all();
 if (todos.length === 0) {
-  const project = addProject({title: "default"});
+  const project = Project.make({title: "default"});
+  project.save();
   console.log("create new")
-  project.addTodo({title: "Something"});
-  project.addTodo({title: "Other", description: "text text text"});
+  Todo.make({title: "Something", project_id: project.id}).save();
+  Todo.make({title: "Other", description: "text text text", project_id: project.id}).save();
 }
 
 console.log(todos.length);
