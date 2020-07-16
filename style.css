@@ -24,21 +24,30 @@ button {
 ************** */
 
 :root {
-  --logo-color: greenyellow;
-  --action-color: yellow;
-  --action-highlight: orange;
-  --success: green;
+  /*  Set up colors
+      Picked on https://coolors.co/ff595e-fe938c-fffefa-488cd5-62c332 */
+
+  --background-color: #FFFEFA;
+  --fade-gradient: linear-gradient(180deg, rgba(255, 254, 250, 0), rgba(255, 254, 250, 1));
+  --logo-color: #488CD5;
+  --action-color: #FF595E;
+  --secondary-action-color: #FE938C;
+  --action-highlight: #DE773B;
+  --success: #62C332;
 }
 
 html {
   font-family: 'Raleway', sans-serif;
   font-size: 14px;
+  background-color: var(--background-color);
 }
 
 button {
   border-radius: 1rem;
-  border: 2px solid rgba(0, 0, 0, .1);
+  border: 2px solid var(--action-color);
   background: var(--action-color);
+  color: white;
+  font-weight: 800;
 }
 
 button:hover { background: var(--action-highlight); }
@@ -57,7 +66,7 @@ button:hover { background: var(--action-highlight); }
   flex-direction: column;
   justify-content: center;
   align-items: center;
-  background-color: #ffffffca;
+  background-color: rgba(255, 255, 255, .85);
 }
 
 #todo-form form,
@@ -69,9 +78,20 @@ button:hover { background: var(--action-highlight); }
 
 form > label { margin-bottom: .5rem; }
 
+form label {
+  color: var(--logo-color);
+  font-weight: 800;
+}
+
 form > input,
 form > textarea,
 form > fieldset { margin-bottom: 1rem; }
+
+form > input,
+form > textarea {
+  border: 2px solid var(--logo-color);
+  border-radius: 2px;
+}
 
 form textarea {
   resize: none;
@@ -90,7 +110,10 @@ form fieldset {
   clear: left;
 }
 
-.close-btn { width: 33.333%; }
+.close-btn {
+  width: 33.333%;
+  background-color: var(--secondary-action-color);
+}
 .save-btn { width: 66.666%; }
 
 #todo-form.hidden,
@@ -138,9 +161,10 @@ form fieldset {
   /* visual */
   padding: .75rem;
   border-radius: 1.5rem;
-  background: lightcyan;
   background-clip: padding-box;
   margin-right: .5rem;
+  box-shadow: 0 0 .25rem rgba(0, 0, 0, .33),
+              0 1.25rem .25rem -1rem rgba(0, 0, 0, .66);
 
   position: relative;
 }
@@ -160,6 +184,7 @@ form fieldset {
   display: flex;
   padding: 0 .75rem;
   background-color: var(--logo-color);
+  color: white;
 }
 
 header h2 {
@@ -172,11 +197,9 @@ header h2 {
 
 .project header h2 { flex: 1; }
 
-.project header .etc-menu { align-self: center; }
-
-.project header .etc {
-  border-width: 0;
-  background: transparent;
+.project header .etc-menu {
+  align-self: center;
+  --color: black;
 }
 
 .project .project-todos {
@@ -206,7 +229,7 @@ header h2 {
   z-index: 2;
   bottom: .75rem;
   left: .5rem;
-  background: linear-gradient(180deg, rgba(224, 255, 255, 0), rgba(224, 255, 255, 1));
+  background: var(--fade-gradient);
 }
 
 .project > button {
@@ -244,16 +267,16 @@ header h2 {
   left: 50%;
   transform: translate(-50%) scale(.6, .6);
   border-radius: 50%;
-  border: 1px solid rgba(0, 0, 0, .1);
-  background-color: var(--action-color);
+  border: 1px solid var(--success);
+  background-color: var(--background-color);
   transition-property: transform, background-color, border-color;
   transition-duration: .2s;
 }
 
 .segment.active::before {
-  border-color: var(--logo-color);
-  background-color: var(--logo-color);
-  box-shadow: 0 0 2px var(--logo-color);
+  border-color: var(--success);
+  background-color: var(--success);
+  box-shadow: 0 0 3px var(--success);
   transform: translate(-50%) scale(1, 1);
 }
 
@@ -282,8 +305,8 @@ header h2 {
   width: 40px;
   top: 10px;
   left: 10px;
-  border: 2px solid #cccccc;
-  background-color: #aeaeae;
+  border: 2px solid var(--action-color);
+  background-color: var(--secondary-action-color);
   border-radius: 4px;
   cursor: pointer;
 }
@@ -412,10 +435,12 @@ header h2 {
   width: 1.25rem;
   height: 1.25rem;
   background-color: white;
-  border: 1px solid var(--success);
+  border: 1px solid var(--logo-color);
   border-radius: 4px;
   pointer-events: none;
 }
+
+input:checked ~ .checkmark { border-color: var(--success); }
 
 .check .checkmark::after {
   content: "";
@@ -437,15 +462,16 @@ header h2 {
   Etc Menu
 ************** */
 
-.etc-menu { position: relative; }
+.etc-menu {
+  position: relative;
+  --color: var(--secondary-action-color);
+}
 
 .etc-menu .etc {
   height: 2rem;
   width: 2rem;
   cursor: pointer;
-  border-radius: .25rem;
   position: relative;
-  background-color: rgba(255, 255, 255, .33);
 }
 
 .etc span,
@@ -455,7 +481,7 @@ header h2 {
   display: block;
   width: 5px;
   height: 5px;
-  background-color: black;
+  background-color: var(--color);
   border-radius: 2.5px;
   position: absolute;
   top: 50%;
@@ -468,14 +494,17 @@ header h2 {
 
 .etc-menu ul {
   position: absolute;
-  right: 0;
+  right: 2px;
   list-style: none;
   padding: .2em;
   z-index: 9999;
   transform: scaleY(0);
   transform-origin: center top;
-  background: wheat;
+  background: var(--background-color);
   border-radius: .2em;
+  color: var(--color);
+  box-shadow: 0 0 2px rgba(0, 0, 0, .33),
+              1px 4px 2px -2px rgba(0, 0, 0, .66);
   transition: transform .2s ease-in-out;
 }
 
@@ -489,8 +518,3 @@ header h2 {
 .etc-menu li:hover { background-color: rgba(0, 0, 0, .05); }
 
 .etc-menu li:active { background-color: rgba(0, 0, 0, .1); }
-
-.project > .etc-menu {
-  float: right;
-  background-color: greenyellow;
-}
