@@ -31,6 +31,7 @@ button {
 }
 
 html {
+  font-family: 'Raleway', sans-serif;
   font-size: 14px;
 }
 
@@ -164,6 +165,8 @@ form fieldset {
 header h2 {
   line-height: 3rem;
   font-size: 2rem;
+  font-weight: 600;
+  font-style: italic;
   text-align: center;
 }
 
