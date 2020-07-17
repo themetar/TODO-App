@@ -67,7 +67,6 @@ const createProjectElement = function createProjectDisplayElement (project) {
   ]));
 
   const add_todo_btn = section.appendChild(document.createElement('button'));
-  add_todo_btn.appendChild(document.createTextNode("Add todo"));
   add_todo_btn.addEventListener('click', (event) => {
     openForm(todo_form, {"project-id": project.id});  
   });
