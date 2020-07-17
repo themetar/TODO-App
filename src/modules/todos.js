@@ -50,6 +50,12 @@ const makeMaker = function (prefix, validator) {
       obj.id = uids.getID();
     }
 
+    if (properties.hasOwnProperty("created_at")) {
+      obj.created_at = new Date(properties.created_at);
+    } else {
+      obj.created_at = new Date();
+    }
+
     return Object.assign(obj, {update: _update, save: _save, delete: _delete});
   };
 
