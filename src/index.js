@@ -23,7 +23,7 @@ console.log( todos.map(td => {
 
 todos.forEach(todo => console.log(todo));
 
-UI.initialize(Project.all(), Todo.all());
+UI.initialize(Project.all().sort((a, b) => a.created_at - b.created_at), Todo.all().sort((a, b) => a.created_at - b.created_at));
 
 UI.events.subscribe('new-todo', (event, data) => {
   console.log("new todo handler");
