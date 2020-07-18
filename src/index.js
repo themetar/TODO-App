@@ -5,31 +5,13 @@ const todos = Todo.all();
 if (todos.length === 0) {
   const project = Project.make({title: "default"});
   project.save();
-  console.log("create new")
   Todo.make({title: "Something", project_id: project.id}).save();
   Todo.make({title: "Other", description: "text text text", project_id: project.id}).save();
 }
 
-console.log(todos.length);
-
-todos.forEach(todo => console.log(todo, todo.id));
-
-console.log( todos.map(td => {
-    let o = Object.assign({}, td);
-    o.title = o.title.toUpperCase();
-    o.description = "uppercased";
-    return o;
-  }) );
-
-todos.forEach(todo => console.log(todo));
-
 UI.initialize(Project.all().sort((a, b) => a.created_at - b.created_at), Todo.all().sort((a, b) => a.created_at - b.created_at));
 
 UI.events.subscribe('new-todo', (event, data) => {
-  console.log("new todo handler");
-  console.log(event);
-  console.log(data);
-
   const todo = Todo.make(data);
   todo.save();
 
