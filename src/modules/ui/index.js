@@ -264,6 +264,8 @@ const addTodo = function (todo) {
     let todo_div = container.querySelector("#todo-" + todo.id);
 
     todo_div = todo_div || container.appendChild(createTodoElement(todo));
+
+    todo_div.scrollIntoView({behavior: "smooth"});
   }
 
 
@@ -281,8 +283,10 @@ const updateTodo = function (todo) {
 }
 
 const addProject = function (project) {
-  projects_container.appendChild(createProjectElement(project));
+  const project_section = createProjectElement(project);
+  projects_container.appendChild(project_section);
   scroll_controll.reconfig();
+  project_section.scrollIntoView({behavior: "smooth"});
 }
 
 const editProject = function showEditProjectForm (project) {
