@@ -541,3 +541,62 @@ input:checked ~ .checkmark { border-color: var(--success); }
 .etc-menu li:hover { background-color: rgba(0, 0, 0, .05); }
 
 .etc-menu li:active { background-color: rgba(0, 0, 0, .1); }
+
+/*  *******
+  Font resizing
+    ******* */
+
+@media (max-width: 1080px) {
+  html { font-size: 13px; }
+}
+
+@media (max-width: 800px) {
+  html { font-size: 12px; }
+}
+
+/*  *******
+  Landscape layout
+    ******* */
+
+@media screen and (min-aspect-ratio: 3/2) and (orientation: landscape) {
+
+  #content {
+    display: block;
+    height: auto;
+  }
+
+  #menu-bar {
+    position: fixed;
+    width: 25%;
+    height: 100%;
+  }
+
+  #app-menu {
+    position: static;
+    width: auto;
+    transform: none;
+  }
+
+  #app-menu-button { display: none; }
+
+  #projects-container {
+    margin: 0;
+    margin-left: 25%;
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+    grid-template-rows: minmax(300px, calc(50vh - 1.5rem));
+    grid-auto-rows: minmax(300px, calc(50vh - 1.5rem));
+    gap: 1rem;
+    padding: 1rem;
+    overflow-x: auto;
+    scroll-snap-type: none;
+
+  }
+
+  #projects-container::before,
+  #projects-container::after {
+    content: none;
+  }
+
+  .scroller { display: none; }
+}
