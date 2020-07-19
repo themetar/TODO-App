@@ -72,11 +72,11 @@ button:active { background: linear-gradient(to bottom, rgba(55, 55, 55, 0), rgba
   background-color: rgba(255, 255, 255, .85);
 }
 
-#todo-form form,
-#project-form form {
+form {
   display: flex;
   flex-flow: column;
   width: 90%;
+  font-size: 1.3rem;
 }
 
 form > label { margin-bottom: .5rem; }
@@ -104,6 +104,8 @@ form fieldset {
   background: none;
   border: none;
 }
+
+form button { font-size: 1.5rem; }
 
 .form-buttons-container button { float: left; }
 
@@ -173,12 +175,9 @@ form fieldset {
 }
 
 .project header {
-  border-radius: 1.5rem;
-}
-
-.project header {
   width: 100%;
   height: 3rem;
+  border-radius: 1.5rem;
   position: absolute;
   left: 0;
   top: 0;
@@ -186,19 +185,23 @@ form fieldset {
 
   display: flex;
   padding: 0 .75rem;
+  
   background-color: var(--logo-color);
   color: white;
+  box-shadow: 0 .15rem .15rem rgba(0, 0, 0, .66);
 }
 
 header h2 {
+  flex: 1 1 auto; 
   line-height: 3rem;
   font-size: 2rem;
   font-weight: 600;
   font-style: italic;
   text-align: center;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
 }
-
-.project header h2 { flex: 1; }
 
 .project header .etc-menu {
   align-self: center;
@@ -238,7 +241,7 @@ header h2 {
 .project > button {
   width: 4rem;
   height: 4rem;
-  border-radius: 2rem;
+  border-radius: 50%;
 
   position: absolute;
   right: .5rem;
@@ -316,7 +319,7 @@ header h2 {
 }
 
 #menu-bar h1 {
-  font-size: 2rem;
+  font-size: 2.4rem;
   line-height: 60px;
   color: var(--logo-color);
   text-shadow: 1px 1px white, 3px 4px 2px black;
@@ -569,6 +572,8 @@ input:checked ~ .checkmark { border-color: var(--success); }
     position: fixed;
     width: 25%;
     height: 100%;
+    border-right: 1px solid var(--action-color);
+    box-shadow: .25rem 0 .25rem rgba(0, 0, 0, .33);
   }
 
   #app-menu {
