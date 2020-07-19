@@ -55,6 +55,10 @@ button:hover { background: linear-gradient(to bottom, rgba(255, 255, 255, .5), r
 
 button:active { background: linear-gradient(to bottom, rgba(55, 55, 55, 0), rgba(55, 55, 55, .2)) var(--background); }
 
+a:link { color: var(--logo-color); }
+a:visited { color: var(--success); }
+a:hover { color: var(--action-color); }
+
 /* ***********
   Forms
 ************** */
@@ -380,17 +384,24 @@ header h2 {
   width: 100vw;
   position: absolute;
   z-index: 8888;
-  background: white;
-  padding: 1rem;
   transform: translate(-100%);
-  transition: transform .3s cubic-bezier(0.645, 0.045, 0.355, 1)
+  transition: transform .3s cubic-bezier(0.645, 0.045, 0.355, 1);
+  background: var(--background-color);
+  padding: 1rem;
+  display: flex;
+  flex-direction: column;
 }
 
 #app-menu.open {
   transform: translate(0);
 }
 
-#app-menu ul { list-style: none; }
+#app-menu ul {
+  list-style: none;
+  flex: 1;
+  margin-bottom: 1em;
+  overflow: visible auto;
+}
 
 #app-menu li > * { width: 100%; }
 
