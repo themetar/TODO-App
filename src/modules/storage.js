@@ -34,7 +34,6 @@ const storeItem = function storeObject (prefix, item) {
 const readItem = function readObject (prefix, id) {
   if (available) {
     const item_key = key(prefix, id);
-    console.log(item_key)
     const data = localStorage.getItem(item_key);
     if (data)
       return JSON.parse(data);

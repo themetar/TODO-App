@@ -68,8 +68,6 @@ const scrollIndicator = function scrollIndicator (scroll_div) {
   const reconfig = function () {
     pages = scroll_div.children.length;
 
-    console.log("pages", pages);
-
     let num_segments = element.children.length;
     if (num_segments < pages) {
       for(let i = num_segments; i < pages; i++) {
