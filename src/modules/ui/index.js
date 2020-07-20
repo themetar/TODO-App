@@ -8,17 +8,13 @@ const formatDate = function (date) {
   return Math.abs(difference) < 7 ? formatRelative(date, now).split(" at ")[0] : formatDistanceToNow(date, {addSuffix: true});
 }
 
-let all_projects;
-
 let projects_container;
 
 let scroll_controll;
 
-let todo_form;
+let todo_form_div;
 
-let add_project_button;
-
-let project_form;
+let project_form_div;
 
 const openForm = function openForm (form, params = {}) {
   form.classList.remove('hidden');
@@ -36,9 +32,10 @@ const closeForm = function closeForm (form) {
   form.classList.add('hidden');
 };
 
+/* Project UI element */
+
 const editProjectHandler = function editProjectHandler (event) {
   const project_id = this.getAttribute("data-project-id");
-  console.log("edit-project");
   events.publish("edit-project", {project_id: Number(project_id)});
 };
 
@@ -48,7 +45,6 @@ const deleteProjectHandler = function deleteProjectHandler (event) {
   element.parentElement.removeChild(element);
   events.publish("delete-project", {project_id: Number(project_id)});
   scroll_controll.reconfig();
-  console.log("delete project");
 };
 
 const createProjectElement = function createProjectDisplayElement (project) {
@@ -68,7 +64,7 @@ const createProjectElement = function createProjectDisplayElement (project) {
 
   const add_todo_btn = section.appendChild(document.createElement('button'));
   add_todo_btn.addEventListener('click', (event) => {
-    openForm(todo_form, {"project-id": project.id});  
+    openForm(todo_form_div, {"project-id": project.id});  
   });
 
   const todos_container = section.appendChild(document.createElement('div'));
@@ -82,12 +78,13 @@ const updateProjectElement = function updateProjectDisplayElement (element, proj
   title.textContent = project.title;
 };
 
+/* Todo UI element */
+
 const deleteTodoHandler = function (event) {
   const todo_id = this.getAttribute("data-todo-id");
   const element = document.querySelector("#" + "todo-" + todo_id);
   element.parentElement.removeChild(element);
   events.publish("delete-todo", {todo_id: Number(todo_id)});
-  console.log("delete");
 };
 
 const editTodoHandler = function editTodoHandler (event) {
@@ -100,7 +97,6 @@ const editTodoHandler = function editTodoHandler (event) {
 const markTodoHandler = function (event) {
   let todo_id = this.parentElement.parentElement.getAttribute("id");
   todo_id = todo_id.replace("todo-", "");
-  console.log("change", this.checked);
   events.publish("update-todo", {todo_id, done: this.checked});
 };
 
@@ -148,7 +144,13 @@ const updateTodoElement = function (div, todo) {
     div.classList.remove("done");
 };
 
+/*
+  Exposed action methods
+  */
+
 const initialize = function initializeUserInterface (all_projects, all_todos) {
+
+  /* Set up app menu */
 
   const app_menu = document.querySelector("#app-menu");
   const app_menu_btn = document.querySelector("#app-menu-button");
@@ -174,23 +176,29 @@ const initialize = function initializeUserInterface (all_projects, all_todos) {
 
   app_menu.querySelector("ul").addEventListener("click", menuClose);
 
-  project_form = document.querySelector("#project-form");
-
-  add_project_button = document.querySelector("#add-project-btn");
+  const add_project_button = document.querySelector("#add-project-btn");
   add_project_button.addEventListener("click", event => {
-    openForm(project_form);
+    openForm(project_form_div);
   });
 
-  project_form.querySelector(".close-btn").addEventListener("click", event => {
-    closeForm(project_form);
-  });
+  /* Set up new/edit forms */
 
-  project_form.querySelector("form").addEventListener("submit", event => {
+  project_form_div  = document.querySelector("#project-form");
+  todo_form_div     = document.querySelector('#todo-form');
+
+  const _closeHandler = (event) => closeForm(event.target.parentElement.parentElement.parentElement);
+
+  project_form_div.querySelector(".close-btn").addEventListener("click", _closeHandler);
+  todo_form_div.querySelector(".close-btn").addEventListener('click', _closeHandler);
+
+  const _submitHandlerFor = type => event => {
     event.preventDefault();
+
+    const form = event.target;
 
     // collect data
     const data = {};
-    project_form.querySelectorAll('input, textarea').forEach(input => {
+    form.querySelectorAll('input, textarea').forEach(input => {
       let name = input.getAttribute('name');
       name = name.replace('-', '_');
       const value = input.value;
@@ -199,44 +207,19 @@ const initialize = function initializeUserInterface (all_projects, all_todos) {
     });
 
     // 2. send event to 
-    if (data.project_id != "")
-      events.publish("update-project", data);
-    else
-      events.publish("new-project", data);
+    const out_event = (data[type +"_id"] != "") ? "update" : "new";
+    events.publish(out_event + "-" + type, data);
     
     // close form
-    closeForm(project_form);    
-  });
+    closeForm(form.parentElement);    
+  };
 
-  projects_container = document.querySelector("#projects-container");
+  project_form_div.querySelector("form").addEventListener("submit", _submitHandlerFor("project"));
+  todo_form_div.querySelector('form').addEventListener('submit', _submitHandlerFor("todo"));
 
-  todo_form = document.querySelector('#todo-form');
-  todo_form.querySelector(".close-btn").addEventListener('click', (event) => {
-    closeForm(todo_form);
-  });
-  todo_form.querySelector('form').addEventListener('submit', (event) => {
-    event.preventDefault();
-    
-    // collect data
-    const data = {};
-    todo_form.querySelectorAll('input, textarea').forEach(input => {
-      let name = input.getAttribute('name');
-      name = name.replace('-', '_');
-      const value = input.value;
+  /* Initialize stored projects / todos */
 
-      data[name] = value;
-    });
-    console.log(data);
-
-    // 2. send event to 
-    if (data.todo_id != "")
-      events.publish("update-todo", data);
-    else
-      events.publish('new-todo', data);
-    
-    // close form
-    closeForm(todo_form);
-  });
+  projects_container = document.querySelector("#projects-container");  
 
   for (const project of all_projects) {
     projects_container.appendChild(createProjectElement(project));
@@ -261,20 +244,15 @@ const addTodo = function (todo) {
   if (project_div) {
     const container = project_div.querySelector('.project-todos');
 
-    let todo_div = container.querySelector("#todo-" + todo.id);
-
-    todo_div = todo_div || container.appendChild(createTodoElement(todo));
+    let todo_div = container.appendChild(createTodoElement(todo));
 
     todo_div.scrollIntoView({behavior: "smooth"});
   }
-
-
 }
 
 const editTodo = function showEditTodoForm (todo) {
   const _todo = Object.assign({"todo-id": todo.id, "project-id": todo.project_id, "due-date": todo.due_date}, todo);
-  console.log(_todo);
-  openForm(todo_form, _todo);
+  openForm(todo_form_div, _todo);
 }
 
 const updateTodo = function (todo) {
@@ -291,8 +269,7 @@ const addProject = function (project) {
 
 const editProject = function showEditProjectForm (project) {
   const _project = Object.assign({"project-id": project.id}, project);
-  console.log(_project);
-  openForm(project_form, _project);
+  openForm(project_form_div, _project);
 };
 
 const updateProject = function (project) {
