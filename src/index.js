@@ -3,10 +3,31 @@ import * as UI from './modules/ui';
 
 const todos = Todo.all();
 if (todos.length === 0) {
-  const project = Project.make({title: "default"});
+  let project = Project.make({title: "Tasks"});
   project.save();
-  Todo.make({title: "Something", project_id: project.id}).save();
-  Todo.make({title: "Other", description: "text text text", project_id: project.id}).save();
+  Todo.make({title: "Add todos with the ADD button",
+              project_id: project.id,
+            }).save();
+  Todo.make({title: "Click/tap the title to edit",
+              description: "You can change the description or the due date.",
+              due_date: new Date(),
+              project_id: project.id,
+            }).save();
+  Todo.make({title: "Use the checkbox to mark as done",
+              description: ";)",
+              due_date: new Date(Date.now() + 2*24*36e5),
+              project_id: project.id,
+            }).save();
+  Todo.make({title: "Open the item menu for other actions",
+              project_id: project.id,
+            }).save();
+
+  project = Project.make({title: "New Project"});
+  project.save();
+  Todo.make({title: "Add a new project from the app menu",
+              due_date: new Date(Date.now() + 7*24*36e5),
+              project_id: project.id,
+            }).save();
 }
 
 UI.initialize(Project.all().sort((a, b) => a.created_at - b.created_at), Todo.all().sort((a, b) => a.created_at - b.created_at));
