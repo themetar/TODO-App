@@ -65,7 +65,7 @@ a:hover { color: var(--action-color); }
 
 #todo-form,
 #project-form {
-  position: absolute;
+  position: fixed;
   width: 100vw;
   height: 100vh;
   z-index: 9999;
@@ -102,6 +102,7 @@ form > textarea {
 
 form textarea {
   resize: none;
+  /* flex-shrink: 1; */
 }
 
 form fieldset {
