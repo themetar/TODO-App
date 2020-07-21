@@ -418,7 +418,16 @@ header h2 {
 .todo .etc-menu,
 .todo .due-date { align-self: center; }
 
-.todo .due-date { white-space: nowrap; }
+.todo .due-date {
+  white-space: nowrap;
+  padding: .15em .2em;
+  border-radius: .15em;
+}
+
+.todo:not(.done) .due-date:not(:empty) {
+  background: var(--logo-color);
+  color: var(--background-color);
+}
 
 .todo .title {
   flex-grow: 1;
@@ -430,7 +439,10 @@ header h2 {
 }
 
 .todo .title,
-.todo .due-date { transition: color .2s ease-in; }
+.todo .due-date {
+  transition: color .2s ease-in,
+              background .2s ease-in;
+}
 
 .todo.done .title,
 .todo.done .due-date { color: gray; }
