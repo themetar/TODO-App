@@ -26,10 +26,14 @@ const openForm = function openForm (form, params = {}) {
     if (element) element.value = value;
   }
   form.querySelector('input[name=title]').focus();
+
+  document.body.style.overflowY = "hidden";
 }
 
 const closeForm = function closeForm (form) {
   form.classList.add('hidden');
+
+  document.body.style.overflowY = "visible";
 };
 
 /* Project UI element */
