@@ -1,11 +1,15 @@
 {
-  "name": "todo-list",
-  "version": "0.1.0",
+  "name": "todo-list-app",
+  "version": "1.0.0",
   "description": "To-do list app",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "build": "webpack",
+    "build": "webpack --config webpack.production.config.js",
     "start": "webpack-dev-server --open"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/themetar/TODO-App.git"
   },
   "keywords": [
     "todo"
