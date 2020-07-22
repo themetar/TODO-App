@@ -5,10 +5,10 @@
 */
 
 const makeUIDTracker = function makeUIDTracker () {
-  const uids = [];
+  const uids = new Set();
 
   const markID = function markIDasUsed (id) {
-    uids.push(id);
+    uids.add(id);
   };
   
   const getID = function getID () {
@@ -16,7 +16,7 @@ const makeUIDTracker = function makeUIDTracker () {
 
     do {
       id = parseInt(Math.random() * Number.MAX_SAFE_INTEGER);
-    } while (uids.includes(id));
+    } while (uids.has(id));
 
     markID(id);
 
@@ -24,7 +24,7 @@ const makeUIDTracker = function makeUIDTracker () {
   };
 
   const freeID = function freeID (id) {
-    if (uids.includes(id)) uids.splice(uids.indexOf(id), 1);
+    uids.delete(id);
   };
 
   return {
